@@ -1,7 +1,9 @@
 from __future__ import print_function, unicode_literals
 from pprint import pprint
 from PyInquirer import prompt
-            
+import cvgenerator.classes as classes
+import yaml
+import json
 
 # def add_value():
 #     questions = [{
@@ -31,3 +33,14 @@ def write_variables():
 
 def placeholder():
     print('Route not yet implemented...')
+
+def create_work_experience_template():
+    questions = {
+        'type': 'input',
+        'name': 'name',
+        'message': 'Enter a job title...',
+    }
+    answers = prompt(questions)
+
+    with open('./work_experience/{}.yaml'.format(answers['name']), 'w') as file:
+        yaml.dump(classes.work_experience(answers['name']), file)

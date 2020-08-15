@@ -12,7 +12,12 @@ class work_experience():
         self.job_title = job_title
         self.start_date = None
         self.end_date = None
-        self.responsibilities = []
+        self.responsibilities = [
+            {
+                'short_description': 'Lorem ipsum dolor sit amet',
+                'long_description': 'Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet'
+            }
+        ]
         self.additional_information = None
 
 class responsibility():
