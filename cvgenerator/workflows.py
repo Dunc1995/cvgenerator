@@ -34,12 +34,28 @@ def write_variables():
 def placeholder():
     print('Route not yet implemented...')
 
-def create_work_experience_template():
-    questions = {
+def view_data_types():
+    placeholder()
+
+def insert_data():
+    #TODO query existing data types and print here
+
+    questions = [ {
+        'type': 'input',
+        'name': 'type',
+        'message': 'Enter a data type',
+    },
+    {
+        'type': 'input',
+        'name': 'title',
+        'message': 'Enter a data type',
+    },
+    {
         'type': 'input',
         'name': 'name',
-        'message': 'Enter a job title...',
-    }
+        'message': 'Enter a data type',
+    },
+    ]
     answers = prompt(questions)
 
     with open('./work_experience/{}.yaml'.format(answers['name']), 'w') as file:

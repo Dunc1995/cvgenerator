@@ -1,1 +1,2 @@
 IS_EXITED = False
+ROOT_DIRECTORY = 'cv_bin'
