@@ -86,3 +86,17 @@ class menu():
     def __exit(self):
         '''instructs all forms to exit'''
         va.IS_EXITED = True
+
+def input_prompt(name: str, message: str, return_immediately=True):
+    output = None
+    question = {
+        'type': 'input',
+        'name': name,
+        'message': message
+    }
+    if return_immediately == True:
+        answer = prompt(questions)
+        output = answer[name]
+    else:
+        output = question #? Returns the question dict if the question is not asked immediately.
+    return output
