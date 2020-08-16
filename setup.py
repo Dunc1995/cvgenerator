@@ -26,7 +26,7 @@ setup(
     #long_description=open("README.txt").read(),
 
     # Dependent packages (distributions)
-    install_requires=[ 'PyYaml' ],
+    install_requires=[ 'TinyDB' ],
 
     entry_points={
     'console_scripts': [

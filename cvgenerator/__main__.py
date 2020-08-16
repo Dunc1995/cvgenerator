@@ -5,6 +5,7 @@ import cvgenerator as cv
 import os.path as path
 import os
 import sys
+from tinydb import TinyDB, Query
 
 def main():
     '''Attempts to parse the input file path and upload it to a sqlite3 database.'''
@@ -22,6 +23,12 @@ def main():
             sys.exit(1)
 
     os.chdir(cv.ROOT_DIRECTORY)
+    cv.DB_OBJ = TinyDB('./cv_db.json', sort_keys=True, indent=4, separators=(',', ': '))
+    cv.TYPES = cv.DB_OBJ.table('types')
+    cv.TAGS = cv.DB_OBJ.table('tags')
+    cv.SCHEMAS = cv.DB_OBJ.table('schemas')
+    cv.DATA = cv.DB_OBJ.table('data')
+    
     app.run()
 
 if __name__ == "__main__":

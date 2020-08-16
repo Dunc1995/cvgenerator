@@ -1,35 +1,15 @@
 from __future__ import print_function, unicode_literals
 from pprint import pprint
 from PyInquirer import prompt
-import cvgenerator.classes as classes
-import yaml
 import json
-
-# def add_value():
-#     questions = [{
-#         'type': 'input',
-#         'name': 'name',
-#         'message': 'What is an important value you\'d attribute to your work? (e.g. creativity)\n Please enter a name here:',
-#     },
-#     {
-#         'type': 'input',
-#         'name': 'weighting',
-#         'message': 'On a scale of 1 to 10, 10 being of most importance to you, what would you rate this value?\n Enter here:',
-#     }]
-#     answers = prompt(questions)
-#     va.VALUES.append(value(answers['name'], int(answers['weighting'])).__dict__)
-
-def remove_value():
-    print('not yet implemented')
+import cvgenerator as cv
+from tinydb import Query
 
 def on_start():
-    print('not yet implemented')
+    placeholder()
 
 def on_exit():
-    print('Route not yet implemented...')
-
-def write_variables():
-    print('Route not yet implemented...')
+    placeholder()
 
 def placeholder():
     print('Route not yet implemented...')
@@ -37,26 +17,58 @@ def placeholder():
 def view_data_types():
     placeholder()
 
+def upsert_list(db_obj, list_name : str):
+    query = Query()
+    list_obj = __get_entries_list(db_obj, list_name)
+    list_name_singular = list_name[:-1]
+
+    questions = {
+        'type': 'input',
+        'name': list_name_singular,
+        'message': 'Enter a new {} name.'.format(list_name_singular),
+    }
+    answers = prompt(questions)
+    list_obj.append(answers[list_name_singular])
+
+    db_obj.upsert({'name': list_name, 'entries': list_obj}, query.name == list_name)
+
+def __get_entries_list(db_obj, list_name):
+    query = Query()
+    list_obj = None
+    try:
+        list_obj = db_obj.search(query.name == list_name)[0]['entries']
+    except IndexError as e:
+        list_obj = []
+    return list_obj
+
+def insert_tag():
+    upsert_list(cv.TAGS, 'tags')
+
+def insert_data_type():
+    upsert_list(cv.TYPES, 'types')
+
 def insert_data():
     #TODO query existing data types and print here
+    data_types = __get_entries_list(cv.TYPES, 'types')
 
     questions = [ {
-        'type': 'input',
+        'type': 'list',
         'name': 'type',
-        'message': 'Enter a data type',
-    },
-    {
-        'type': 'input',
-        'name': 'title',
-        'message': 'Enter a data type',
+        'message': 'What type of data is this data?',
+        'choices': data_types
     },
     {
         'type': 'input',
         'name': 'name',
-        'message': 'Enter a data type',
-    },
-    ]
+        'message': 'Enter a name for this new entry.',
+    } ]
     answers = prompt(questions)
+    cv.DATA.insert({ 
+        'type': answers['type'],
+        'name': answers['name'],
+        'contents': {},
+        'tags': [] })
 
-    with open('./work_experience/{}.yaml'.format(answers['name']), 'w') as file:
-        yaml.dump(classes.work_experience(answers['name']), file)
+def assign_tags_to_data():
+    print(cv.DATA.all())
+    placeholder()

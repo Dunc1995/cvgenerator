@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "cvgenerator",
-            "args": [ "-init", "./" ],
+            "args": [ ],
             "env": { "PYTHONPATH": "${workspaceRoot}" },
             "console": "integratedTerminal"
         }
