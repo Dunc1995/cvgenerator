@@ -5,11 +5,7 @@ import json
 import cvgenerator as cv
 from tinydb import Query
 
-def on_start():
-    placeholder()
-
-def on_exit():
-    placeholder()
+__SCHEMA_PLACEHOLDER = None
 
 def placeholder():
     print('Route not yet implemented...')
@@ -74,6 +70,7 @@ def assign_tags_to_data():
     placeholder()
 
 def edit_type_schemas():
+    global __SCHEMA_PLACEHOLDER
     query = Query()
     schema_to_edit = None
     data_types = __get_entries_list(cv.TYPES, 'types')
@@ -91,5 +88,30 @@ def edit_type_schemas():
         schema_to_edit = cv.DEFAULT_SCHEMA
         schema_to_edit['type'] = answers['type']
         cv.SCHEMAS.upsert(schema_to_edit, query.type == answers['type'])
+
     print('The following schema exists for the {} type:\n'.format(answers['type']))
     print(json.dumps(schema_to_edit, indent=4))
+
+    __SCHEMA_PLACEHOLDER = schema_to_edit
+    cv.SCHEMA_MENU.show()
+
+def add_schema_key():
+    global __SCHEMA_PLACEHOLDER
+    query = Query()
+    questions = {
+        'type': 'input',
+        'name': 'key',
+        'message': 'Please enter a key name.'
+    }
+    answer = prompt(questions)
+    __SCHEMA_PLACEHOLDER[answer['key']] = None
+    cv.SCHEMAS.upsert(__SCHEMA_PLACEHOLDER, query.type == __SCHEMA_PLACEHOLDER['type'])
+
+def remove_schema_key():
+    placeholder()
+
+def add_type_parent():
+    placeholder()
+
+def remove_type_parent():
+    placeholder()
