@@ -1,6 +1,5 @@
 import argparse
 import logging
-import cvgenerator.app as app
 import cvgenerator as cv
 import os.path as path
 import os
@@ -29,7 +28,7 @@ def main():
     cv.SCHEMAS = cv.DB_OBJ.table('schemas')
     cv.DATA = cv.DB_OBJ.table('data')
     
-    app.run()
+    cv.MAIN_MENU.show()
 
 if __name__ == "__main__":
     main()

@@ -72,3 +72,24 @@ def insert_data():
 def assign_tags_to_data():
     print(cv.DATA.all())
     placeholder()
+
+def edit_type_schemas():
+    query = Query()
+    schema_to_edit = None
+    data_types = __get_entries_list(cv.TYPES, 'types')
+    questions = {
+        'type': 'list',
+        'name': 'type',
+        'message': 'Select a data type to edit.',
+        'choices': data_types
+    }
+    answers = prompt(questions)
+
+    try:
+        schema_to_edit = cv.SCHEMAS.search(query.type == answers['type'])[0]
+    except IndexError as e:
+        schema_to_edit = cv.DEFAULT_SCHEMA
+        schema_to_edit['type'] = answers['type']
+        cv.SCHEMAS.upsert(schema_to_edit, query.type == answers['type'])
+    print('The following schema exists for the {} type:\n'.format(answers['type']))
+    print(json.dumps(schema_to_edit, indent=4))
