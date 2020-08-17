@@ -4,8 +4,8 @@ import cvgenerator as cv
 import os.path as path
 import os
 import sys
-from tinydb import TinyDB, Query
 import cvgenerator.wrappers.tinydb as db
+import cvgenerator.forms as forms
 
 def main():
     '''Attempts to parse the input file path and upload it to a sqlite3 database.'''
@@ -24,7 +24,7 @@ def main():
 
     os.chdir(cv.ROOT_DIRECTORY)
     cv.DB_CLIENT = db.client()
-    cv.MAIN_MENU.show()
+    forms.MAIN_MENU.show()
 
 if __name__ == "__main__":
     main()

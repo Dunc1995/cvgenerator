@@ -2,7 +2,7 @@ from __future__ import print_function, unicode_literals
 from pprint import pprint
 from PyInquirer import prompt
 from examples import custom_style_2
-import cvgenerator as va
+import cvgenerator as cv
 
 class choice():
     def __init__(self, name, method=None):
@@ -40,7 +40,7 @@ class menu():
                 self.choices.append(self.exit_option)
             self.has_been_shown = True
 
-        while self.escaped == False and va.IS_EXITED == False:
+        while self.escaped == False and cv.IS_EXITED == False:
             answer = prompt({
                 'type': self.type,
                 'name': self.name,
@@ -85,7 +85,7 @@ class menu():
 
     def __exit(self):
         '''instructs all forms to exit'''
-        va.IS_EXITED = True
+        cv.IS_EXITED = True
 
 def input_prompt(name: str, message: str, return_immediately=True):
     output = None

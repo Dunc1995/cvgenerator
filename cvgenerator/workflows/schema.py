@@ -45,16 +45,3 @@ def add_type_parent():
 def remove_type_parent():
     placeholder()
 
-def __get_schema(type_name: str):
-    schema = None
-    query = Query()
-    try:
-        schema = cv.SCHEMAS.search(query.type == type_name)[0]
-    except IndexError as e:
-        schema = cv.DEFAULT_SCHEMA
-        schema['type'] = type_name
-        cv.SCHEMAS.upsert(schema, query.type == type_name)
-    return schema
-
-def __upsert(table, dict_input, name, key = 'name'):
-        table.upsert(dict_input, Query()[key] == name)
