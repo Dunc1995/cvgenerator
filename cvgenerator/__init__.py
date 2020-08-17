@@ -11,9 +11,5 @@ DEFAULT_SCHEMA = {
 
 #region #? Stateful
 IS_EXITED = False
-DB_OBJ = None
-TYPES = None
-TAGS = None
-SCHEMAS = None
-DATA = None
+DB_CLIENT = None
 #endregion

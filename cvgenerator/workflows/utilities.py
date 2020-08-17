@@ -23,3 +23,18 @@ def edit_type_schemas():
 
     __SCHEMA_PLACEHOLDER = schema_to_edit
     cv.SCHEMA_MENU.show()
+
+def upsert_list(db_obj, list_name : str):
+    query = Query()
+    list_obj = __get_entries_list(db_obj, list_name)
+    list_name_singular = list_name[:-1]
+
+    questions = {
+        'type': 'input',
+        'name': list_name_singular,
+        'message': 'Enter a new {} name.'.format(list_name_singular),
+    }
+    answers = prompt(questions)
+    list_obj.append(answers[list_name_singular])
+
+    db_obj.upsert({'name': list_name, 'entries': list_obj}, query.name == list_name)
