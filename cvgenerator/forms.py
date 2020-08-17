@@ -95,7 +95,7 @@ def input_prompt(name: str, message: str, return_immediately=True):
         'message': message
     }
     if return_immediately == True:
-        answer = prompt(questions)
+        answer = prompt(question)
         output = answer[name]
     else:
         output = question #? Returns the question dict if the question is not asked immediately.

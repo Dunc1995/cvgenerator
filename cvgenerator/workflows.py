@@ -119,6 +119,7 @@ def remove_type_parent():
 
 def __get_schema(type_name: str):
     schema = None
+    query = Query()
     try:
         schema = cv.SCHEMAS.search(query.type == type_name)[0]
     except IndexError as e:
