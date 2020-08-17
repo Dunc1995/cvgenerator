@@ -11,9 +11,6 @@ __SCHEMA_PLACEHOLDER = None
 def placeholder():
     print('Route not yet implemented...')
 
-def view_data_types():
-    placeholder()
-
 def upsert_list(db_obj, list_name : str):
     query = Query()
     list_obj = __get_entries_list(db_obj, list_name)
@@ -69,44 +66,3 @@ def insert_data():
 def assign_tags_to_data():
     print(cv.DATA.all())
     placeholder()
-
-def add_schema_key():
-    global __SCHEMA_PLACEHOLDER
-    query = Query()
-    new_key = forms.input_prompt('key', 'Please enter a key name')
-    __SCHEMA_PLACEHOLDER[new_key] = None
-    cv.SCHEMAS.upsert(__SCHEMA_PLACEHOLDER, query.type == __SCHEMA_PLACEHOLDER['type'])
-
-def remove_schema_key():
-    global __SCHEMA_PLACEHOLDER
-    query = Query()
-    questions = {
-        'type': 'list',
-        'name': 'key',
-        'message': 'Please select a key to remove.',
-        'choices': __SCHEMA_PLACEHOLDER.keys()
-    }
-    answer = prompt(questions)
-    
-    #__SCHEMA_PLACEHOLDER[answer['key']] = None
-    #cv.SCHEMAS.upsert(__SCHEMA_PLACEHOLDER, query.type == __SCHEMA_PLACEHOLDER['type'])
-
-def add_type_parent():
-    placeholder()
-
-def remove_type_parent():
-    placeholder()
-
-def __get_schema(type_name: str):
-    schema = None
-    query = Query()
-    try:
-        schema = cv.SCHEMAS.search(query.type == type_name)[0]
-    except IndexError as e:
-        schema = cv.DEFAULT_SCHEMA
-        schema['type'] = type_name
-        cv.SCHEMAS.upsert(schema, query.type == type_name)
-    return schema
-
-def __upsert(table, dict_input, name, key = 'name'):
-        table.upsert(dict_input, Query()[key] == name)
