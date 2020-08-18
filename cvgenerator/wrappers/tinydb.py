@@ -15,35 +15,35 @@ class client():
         '''
         return [ entry['type'] for entry in self.schemas.all() ]
 
+    def get_entries_list(self, table: Table, list_name):
+        list_obj = None
+        try:
+            list_obj = db_obj.search(GENERIC_QUERY['name'] == list_name)[0]['entries']
+        except IndexError as e:
+            list_obj = []
+        return list_obj
 
-    def __search(self, table: Table, key: str, value: str):
+    def get_schema(self, type_name: str):
+        schema = None
+        try:
+            schema = self.schemas.search(GENERIC_QUERY['type'] == type_name)[0]
+        except IndexError as e:
+            schema = cv.DEFAULT_SCHEMA
+            schema['type'] = type_name
+            self.schemas.upsert(schema, GENERIC_QUERY['type'] == type_name)
+        return schema
+
+    def search(self, table: Table, key: str, value: str):
         return table.search(GENERIC_QUERY[key] == value)
 
-#TODO refactor below
-#region rubbish
-def __get_entries_list(db_obj, list_name):
-    query = Query()
-    list_obj = None
-    try:
-        list_obj = db_obj.search(query.name == list_name)[0]['entries']
-    except IndexError as e:
-        list_obj = []
-    return list_obj
+    def upsert_tag_entry(self, key: str, value: str, data: dict):
+        self.tags.upsert(data, GENERIC_QUERY[key] == value)
 
+    def upsert_schema_entry(self, key: str, value: str, data: dict):
+        self.schemas.upsert(data, GENERIC_QUERY[key] == value)
 
-def __get_schema(type_name: str):
-    schema = None
-    query = Query()
-    try:
-        schema = cv.SCHEMAS.search(query.type == type_name)[0]
-    except IndexError as e:
-        schema = cv.DEFAULT_SCHEMA
-        schema['type'] = type_name
-        cv.SCHEMAS.upsert(schema, query.type == type_name)
-    return schema
-
-def __upsert(table, dict_input, name, key = 'name'):
-        table.upsert(dict_input, Query()[key] == name)
+    def upsert_data_entry(self, key: str, value: str, data: dict):
+        self.data.upsert(data, GENERIC_QUERY[key] == value)
 
 def upsert_list(db_obj, list_name : str):
     query = Query()
