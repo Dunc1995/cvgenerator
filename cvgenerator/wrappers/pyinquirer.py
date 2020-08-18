@@ -1,6 +1,6 @@
 from __future__ import print_function, unicode_literals
 from pprint import pprint
-from PyInquirer import prompt
+from PyInquirer import prompt, Separator
 from examples import custom_style_2
 import cvgenerator as cv
 
@@ -100,3 +100,7 @@ def input_prompt(name: str, message: str, return_immediately=True):
     else:
         output = question #? Returns the question dict if the question is not asked immediately.
     return output
+
+class prompts():
+    def __init__(self):
+        pass

@@ -15,10 +15,10 @@ class client():
         '''
         return [ entry['type'] for entry in self.schemas.all() ]
 
-    def get_entries_list(self, table: Table, list_name):
+    def get_all_tags(self):
         list_obj = None
         try:
-            list_obj = db_obj.search(GENERIC_QUERY['name'] == list_name)[0]['entries']
+            list_obj = self.tags.all()[0]['tags']
         except IndexError as e:
             list_obj = []
         return list_obj
@@ -33,7 +33,7 @@ class client():
             self.schemas.upsert(schema, GENERIC_QUERY['type'] == type_name)
         return schema
 
-    def search(self, table: Table, key: str, value: str):
+    def search(self, table, key: str, value: str):
         return table.search(GENERIC_QUERY[key] == value)
 
     def upsert_tag_entry(self, key: str, value: str, data: dict):

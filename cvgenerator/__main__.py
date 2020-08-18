@@ -4,8 +4,8 @@ import cvgenerator as cv
 import os.path as path
 import os
 import sys
-import cvgenerator.wrappers.tinydb as db
 import cvgenerator.forms as forms
+import cvgenerator.wrappers.tinydb as db
 
 def main():
     '''Attempts to parse the input file path and upload it to a sqlite3 database.'''

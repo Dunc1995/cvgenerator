@@ -5,8 +5,10 @@ DEFAULT_SCHEMA = {
         'name': None,
         'contents': None,
         'parent': None, #? one to one relationship
-        'parent_type': None, #? one to many relationship - one type could have many potential parent types.
-        'tags': [] }
+        'parent_types': [], #? one to many relationship - one type could have many potential parent types.
+        'children_types': [],
+        'tags': [] 
+        }
 #endregion
 
 #region #? Stateful

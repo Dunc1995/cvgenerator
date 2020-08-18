@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "cvgenerator",
             "args": [ ],
-            "env": { "PYTHONPATH": "${workspaceRoot}" },
+            "env": { "PYTHONPATH": "../" },
             "console": "integratedTerminal"
         }
     ]
