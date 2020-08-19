@@ -132,7 +132,7 @@ class prompts():
 
     def question_sequence(self, questions: list):
         '''
-        Simple wrapper for the 'prompt' method.
+        Simple wrapper for the 'prompt' method. This will return a dict containing user inputs.
         '''
         return prompt(questions)
         
