@@ -29,4 +29,4 @@ def edit_type_schemas():
     # print(json.dumps(schema_to_edit, indent=4))
 
     # __SCHEMA_PLACEHOLDER = schema_to_edit
-    # cv.SCHEMA_MENU.show()
+    forms.SCHEMA_MENU.show()

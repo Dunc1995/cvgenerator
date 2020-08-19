@@ -1,5 +1,5 @@
 import cvgenerator.forms as forms
-from cvgenerator import DB_CLIENT as db
+import cvgenerator as cv
 from cvgenerator.wrappers.pyinquirer import prompts
 
 def edit_type_schemas():
@@ -60,4 +60,8 @@ def add_type_parent():
 def remove_type_parent():
     pass
     # placeholder()
+
+def view_existing_schemas():
+    types = cv.DB_CLIENT.get_all_types()
+    print(str(types))
 

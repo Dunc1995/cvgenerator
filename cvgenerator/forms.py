@@ -28,5 +28,6 @@ SCHEMA_MENU.add_options([
     choice('Add parameter', schema.add_schema_key),
     choice('Remove parameter', schema.remove_schema_key),
     choice('Add data type parent', schema.add_type_parent),
-    choice('Remove data type parent', schema.remove_type_parent)
+    choice('Remove data type parent', schema.remove_type_parent),
+    choice('View existing schemas', schema.view_existing_schemas)
 ])
