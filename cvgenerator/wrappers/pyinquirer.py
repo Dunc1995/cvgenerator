@@ -87,20 +87,52 @@ class menu():
         '''instructs all forms to exit'''
         cv.IS_EXITED = True
 
-def input_prompt(name: str, message: str, return_immediately=True):
-    output = None
-    question = {
-        'type': 'input',
-        'name': name,
-        'message': message
-    }
-    if return_immediately == True:
-        answer = prompt(question)
-        output = answer[name]
-    else:
-        output = question #? Returns the question dict if the question is not asked immediately.
-    return output
-
 class prompts():
-    def __init__(self):
-        pass
+    '''
+    Dicts for PyInquirer affect the readability of user workflows.
+    This class abstracts them away so questions take up little space for complex methods.
+    '''
+
+    def input_prompt(self, name: str, message: str, return_immediately=True):
+        '''
+        If the prompt is used at invocation, input_prompt will return the user's selection;
+        if not it returns the question dict for later use.
+        '''
+        output = None
+        question = {
+            'type': 'input',
+            'name': name,
+            'message': message
+        }
+        if prompt_now == True:
+            answer = prompt(question)
+            output = answer[name]
+        else:
+            output = question #? Returns the question dict if the question is not asked immediately.
+        return output
+
+    def list_prompt(self, name: str, message: str, list_array: list, prompt_now=True):
+        '''
+        If the prompt is used at invocation, list_prompt will return the user's selection;
+        if not it returns the question dict for later use.
+        '''
+        output = None
+        question = {
+            'type': 'list',
+            'name': name,
+            'message': message,
+            'choices': list_array
+        }
+        if prompt_now == True:
+            answer = prompt(question)
+            output = answer[name]
+        else:
+            output = question #? Returns the question dict if the question is not asked immediately.
+        return output
+
+    def question_sequence(self, questions: list):
+        '''
+        Simple wrapper for the 'prompt' method.
+        '''
+        return prompt(questions)
+        
