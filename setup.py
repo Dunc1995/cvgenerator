@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     # Application name:
@@ -12,7 +12,7 @@ setup(
     author_email="duncanbailey1995@gmail.com",
 
     # Packages
-    packages=["cvgenerator"],
+    packages=find_packages(),
 
     # Include additional files into the package
     include_package_data=True,
@@ -26,7 +26,7 @@ setup(
     #long_description=open("README.txt").read(),
 
     # Dependent packages (distributions)
-    install_requires=[ 'TinyDB' ],
+    install_requires=[ 'TinyDB', 'PyInquirer' ],
 
     entry_points={
     'console_scripts': [
