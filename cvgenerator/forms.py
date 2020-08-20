@@ -25,9 +25,6 @@ MAIN_MENU.add_options([
 
 SCHEMA_MENU = menu('schema_edit', 'Options')
 SCHEMA_MENU.add_options([
-    choice('Add parameter', schema.add_schema_key),
-    choice('Remove parameter', schema.remove_schema_key),
-    choice('Add data type parent', schema.add_type_parent),
-    choice('Remove data type parent', schema.remove_type_parent),
+    choice('Add new schema', schema.add_new_schema
     choice('View existing schemas', schema.view_existing_schemas)
 ])

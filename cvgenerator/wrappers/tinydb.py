@@ -59,4 +59,3 @@ def upsert_list(db_obj, list_name : str):
     list_obj.append(answers[list_name_singular])
 
     db_obj.upsert({'name': list_name, 'entries': list_obj}, query.name == list_name)
-#endregion
