@@ -92,8 +92,8 @@ class prompts():
     Dicts for PyInquirer affect the readability of user workflows.
     This class abstracts them away so questions take up little space for complex methods.
     '''
-
-    def input_prompt(self, name: str, message: str, return_immediately=True):
+    @staticmethod
+    def input_prompt(name: str, message: str, prompt_now=True):
         '''
         If the prompt is used at invocation, input_prompt will return the user's selection;
         if not it returns the question dict for later use.
@@ -111,7 +111,8 @@ class prompts():
             output = question #? Returns the question dict if the question is not asked immediately.
         return output
 
-    def list_prompt(self, name: str, message: str, list_array: list, prompt_now=True):
+    @staticmethod
+    def list_prompt(name: str, message: str, list_array: list, prompt_now=True):
         '''
         If the prompt is used at invocation, list_prompt will return the user's selection;
         if not it returns the question dict for later use.
@@ -130,7 +131,8 @@ class prompts():
             output = question #? Returns the question dict if the question is not asked immediately.
         return output
 
-    def question_sequence(self, questions: list):
+    @staticmethod
+    def question_sequence(questions: list):
         '''
         Simple wrapper for the 'prompt' method. This will return a dict containing user inputs.
         '''

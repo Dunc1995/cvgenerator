@@ -36,6 +36,9 @@ class client():
     def search(self, table, key: str, value: str):
         return table.search(GENERIC_QUERY[key] == value)
 
+    def insert_schema(self, schema: dict):
+        self.schemas.insert(schema)
+
     def upsert_tag_entry(self, key: str, value: str, data: dict):
         self.tags.upsert(data, GENERIC_QUERY[key] == value)
 
