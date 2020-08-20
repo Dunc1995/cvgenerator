@@ -1,5 +1,6 @@
 import cvgenerator.forms as forms
 import cvgenerator as cv
+from cvgenerator import DEFAULT_SCHEMA as d_schema
 from cvgenerator.wrappers.pyinquirer import prompts
 
 def edit_type_schemas():
@@ -25,13 +26,15 @@ def edit_type_schemas():
 
 def add_new_schema():
     adding_children = None
-    parent_schema = cv.DEFAULT_SCHEMA
+    parent_schema = d_schema
     types_list = cv.DB_CLIENT.get_all_types()
     first_child_prompt_prompted = False
 
     ui_input_type = prompts.input_prompt('type', 'What name do you want to give your schema?')
     if not ui_input_type in types_list:
         parent_schema['type'] = ui_input_type
+        cv.DB_CLIENT.upsert_schema_entry('type', ui_input_type, parent_schema)
+        parent_schema = cv.DB_CLIENT.get_schema(ui_input_type)
 
         ui_children_yes_no = prompts.input_prompt('child_bool', 'Does your new schema have any children schemas? (y/n)\n For example, does it possess a start_date or end_date?')
         if ui_children_yes_no == 'y':
@@ -42,14 +45,14 @@ def add_new_schema():
                 if not adding_children == 'n':        
                     ui_input_child_type = prompts.input_prompt('child', 'Please enter a name for the child schema.')
                     parent_schema['children_types'].append(ui_input_child_type)
-                    cv.DB_CLIENT.upsert_schema_entry('type', ui_input_type, parent_schema)
+                    
 
                     if ui_input_child_type in types_list:
                         existing_child = cv.DB_CLIENT.get_schema(ui_children_yes_no)
                         existing_child['parent_types'].append(user_input_type) #? adds the parent schema to its parent list
                         cv.DB_CLIENT.upsert_schema_entry('type', ui_input_child_type, existing_child)
                     else:
-                        child_schema = cv.DEFAULT_SCHEMA
+                        child_schema = d_schema
                         child_schema['parent_types'].clear()
                         child_schema['children_types'].clear()
                         child_schema['type'] = ui_input_child_type
