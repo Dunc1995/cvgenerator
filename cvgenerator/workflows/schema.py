@@ -17,7 +17,7 @@ def get_default_schema():
         'tags': [] 
         }
 
-def edit_type_schemas():
+def edit_existing_schema():
     pass
     # global __SCHEMA_PLACEHOLDER
     # query = Query()
