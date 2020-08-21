@@ -28,9 +28,7 @@ class client():
         try:
             schema = self.schemas.search(GENERIC_QUERY['type'] == type_name)[0]
         except IndexError as e:
-            schema = cv.DEFAULT_SCHEMA
-            schema['type'] = type_name
-            self.schemas.upsert(schema, GENERIC_QUERY['type'] == type_name)
+            schema = None
         return schema
 
     def search(self, table, key: str, value: str):
