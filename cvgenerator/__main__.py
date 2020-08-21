@@ -6,6 +6,7 @@ import os
 import sys
 import cvgenerator.forms as forms
 import cvgenerator.wrappers.tinydb as db
+import cvgenerator.parser as resource_parser
 
 def main():
     '''Attempts to parse the input file path and upload it to a sqlite3 database.'''
@@ -21,6 +22,9 @@ def main():
         if not path.exists(cv.ROOT_DIRECTORY):
             print('If your CV data already exists, please navigate to its root directory, otherwise run \'cvgenerator -init\' to get started.')
             sys.exit(1)
+
+    result = resource_parser.get_schema_template()
+    print(result)
 
     os.chdir(cv.ROOT_DIRECTORY)
     cv.DB_CLIENT = db.client()
