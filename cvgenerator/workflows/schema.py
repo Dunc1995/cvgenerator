@@ -2,6 +2,7 @@ import cvgenerator.forms as forms
 import cvgenerator as cv
 from cvgenerator.wrappers.pyinquirer import prompts
 import json
+import cvgenerator.parser as parser
 
 def get_default_schema():
     '''
@@ -75,6 +76,9 @@ def add_new_schema():
             print('{} schema added!'.format(ui_input_type))
     else:
         print('{} schema already exists!'.format(ui_input_type))
+
+def refresh_schema_hierarchy():
+    parser.get_schema_dict_from_file()
 
 def add_schema_key():
     pass

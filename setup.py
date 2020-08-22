@@ -26,7 +26,7 @@ setup(
     #long_description=open("README.txt").read(),
 
     # Dependent packages (distributions)
-    install_requires=[ 'TinyDB', 'PyInquirer' ],
+    install_requires=[ 'TinyDB', 'PyInquirer', 'PyYAML' ],
 
     entry_points={
     'console_scripts': [

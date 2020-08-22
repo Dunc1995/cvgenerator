@@ -12,6 +12,7 @@ CV_EDITOR_MENU.add_options([
 SCHEMA_MENU = menu('schema_edit', 'Options')
 SCHEMA_MENU.add_options([
     choice('Add new schema', schema.add_new_schema),
+    choice('Refresh schema hierarchy', schema.refresh_schema_hierarchy),
     choice('Edit existing schema', schema.edit_existing_schema),
     choice('View existing schemas', schema.view_existing_schemas)
 ])

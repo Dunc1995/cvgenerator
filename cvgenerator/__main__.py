@@ -16,19 +16,25 @@ def main():
     args = parser.parse_args()
 
     if args.initialise == True:
+        schema_template = resource_parser.get_schema_template()
+
         if not path.exists(cv.ROOT_DIRECTORY):
             os.mkdir(cv.ROOT_DIRECTORY)
+            schema_path = os.path.join(cv.ROOT_DIRECTORY, 'schemas_hierarchy.yaml')
+            write_to_file(schema_path, schema_template)
     else:
         if not path.exists(cv.ROOT_DIRECTORY):
             print('If your CV data already exists, please navigate to its root directory, otherwise run \'cvgenerator -init\' to get started.')
             sys.exit(1)
 
-    result = resource_parser.get_schema_template()
-    print(result)
-
     os.chdir(cv.ROOT_DIRECTORY)
     cv.DB_CLIENT = db.client()
     forms.MAIN_MENU.show()
+
+def write_to_file(file_path: str, contents: str):
+    with open(file_path, 'w') as file:
+        file.write(contents)
+        file.close()
 
 if __name__ == "__main__":
     main()
