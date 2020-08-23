@@ -82,6 +82,8 @@ def get_children_keys(index: int, input_obj):
                     keys_group.append(key)
             output_keys = {index: keys_group}
             # print('^--------^')
+        else:
+            index -= 1
     except Exception as e:
         print(str(e))
     return output, output_keys, index
