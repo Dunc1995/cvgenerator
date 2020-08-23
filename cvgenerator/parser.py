@@ -26,21 +26,20 @@ def get_schema_dict_from_file():
     
     i = 0
     while keep_iterating == True:
-        # print('''
-        # --------
-        # Level {}
-        # --------
-        # '''.format(i))
         children_values = []
-        j = 0
+        for value in values_array:
+            if isinstance(value, dict):
+                for __key, __value in value.items():
+                    print('level {} - {}'.format(i, __key))
 
         for value in values_array:
-            sub_values, sub_keys, j = get_children_keys(j, value)
+            sub_values, sub_keys = get_children_keys(value)
             for sub_val in sub_values:
                 children_values.append(sub_val)
             if not sub_keys == None:
+                for sub in sub_keys:
+                    print('sublevel {} - {}'.format(i, sub))
                 SCHEMA_INDEX.append({ i: sub_keys })
-            j += 1
 
         keep_iterating = nested_keys_exist(values_array)
         values_array = children_values
@@ -60,33 +59,29 @@ def nested_keys_exist(value_array: list):
             break
     return output
 
-def get_children_keys(index: int, input_obj):
+# def get_parent_keys(input_obj):
+
+
+def get_children_keys(input_obj):
     '''
     Constructs a list of child keys for further processing.
     '''
-    #!-----------------------------------
-    #!This is is likely to be problematic
-    #!-----------------------------------
-    output = []
+    output_values = []
     output_keys = None
     try:
-        keys = __get_child_keys_if_dict(output, input_obj)
+        keys = __get_child_keys_if_dict(output_values, input_obj)
         if not keys == None:
-            output_keys = {index: keys}
+            output_keys = keys
         elif isinstance(input_obj, list):
-            # print('v--list--v')
             keys_group = []
             for ob in input_obj:
-                sub_keys = __get_child_keys_if_dict(output, ob)
+                sub_keys = __get_child_keys_if_dict(output_values, ob)
                 for key in sub_keys:
                     keys_group.append(key)
-            output_keys = {index: keys_group}
-            # print('^--------^')
-        else:
-            index -= 1
+            output_keys = keys_group
     except Exception as e:
         print(str(e))
-    return output, output_keys, index
+    return output_values, output_keys
 
 def __get_child_keys_if_dict(input_list: list, instance):
     child_keys = None
@@ -97,13 +92,6 @@ def __get_child_keys_if_dict(input_list: list, instance):
             child_keys.append(key)
             if not value == None:
                 input_list.append(value)
-            else:
-                input_list.append(key)
-        # print('---children---')
-        # for entry in child_keys:
-        #     print(entry)
-        # print('--------------')
-
     return child_keys
 
 def get_default_parent_schema():
