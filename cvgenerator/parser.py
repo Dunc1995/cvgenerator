@@ -34,11 +34,11 @@ def get_schema_dict_from_file():
             sub_values = get_children_keys(value)
             for sub_val in sub_values:
                 children_values.append(sub_val)
-        keep_iterating = nested_dict_exists(values_array)
+        keep_iterating = nested_keys_exist(values_array)
         values_array = children_values
         i += 1
 
-def nested_dict_exists(value_array: list):
+def nested_keys_exist(value_array: list):
     '''
     Returns True or False depending on whether a list or dict is present in the input list.
     '''
@@ -75,7 +75,8 @@ def get_children_keys(input_obj):
                         else:
                             output.append(key)
         else:
-            print(str(input_obj))
+            pass
+            #print(str(input_obj))
     except Exception as e:
         print(str(e))
     return output
