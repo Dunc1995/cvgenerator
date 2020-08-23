@@ -27,19 +27,14 @@ def get_schema_dict_from_file():
     i = 0
     while keep_iterating == True:
         children_values = []
-        for value in values_array:
-            if isinstance(value, dict):
-                for __key, __value in value.items():
-                    print('level {} - {}'.format(i, __key))
 
         for value in values_array:
             sub_values, sub_keys = get_children_keys(value)
             for sub_val in sub_values:
                 children_values.append(sub_val)
-            if not sub_keys == None:
-                for sub in sub_keys:
-                    print('sublevel {} - {}'.format(i, sub))
-                SCHEMA_INDEX.append({ i: sub_keys })
+            for sub in sub_keys:
+                print('sublevel {} - {}'.format(i, sub))
+            SCHEMA_INDEX.append({ i: sub_keys })
 
         keep_iterating = nested_keys_exist(values_array)
         values_array = children_values
