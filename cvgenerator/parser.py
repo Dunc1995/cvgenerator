@@ -17,125 +17,36 @@ def get_local_schema_template():
         contents = file.read()
     return contents
 
+def get_all_values(nested_dictionary):
+    __child_keys = []
+    append_keys = None
+
+    for key, value in nested_dictionary.items():
+        __child_keys.append(key)
+
+        if type(value) is dict:
+            append_keys = get_all_values(value)
+        elif type(value) is list:
+            append_keys = []
+            for item in value:
+                __sub_group = get_all_values(item)
+                for i in __sub_group:
+                    append_keys.append(i)
+        else:
+            pass
+            # print(key, ":", value)
+        if not append_keys == None and len(append_keys) > 0:
+            print('''
+            parent: {}
+            children: {}
+            '''.format(key, append_keys))
+    
+    return __child_keys
+
 def get_schema_dict_from_file():
     contents_string = get_local_schema_template()
     contents_dict = yaml.safe_load(contents_string)
-    keep_iterating = True
-    dict_array = []
-    dict_array.append(contents_dict)
-    
-    i = 0
-    while keep_iterating == True:
-        children_dicts = []
-        parent_keys = []
-
-        for doc_obj in dict_array:
-            if isinstance(doc_obj, dict):
-                parent_keys = list(doc_obj.keys())
-                for key in parent_keys:
-                    if isinstance(doc_obj[key], dict) or isinstance(doc_obj[key], list):
-                        children_dicts.append(doc_obj[key])
-            elif isinstance(doc_obj, list):
-                for sub_obj in doc_obj:
-                    if isinstance(sub_obj, dict):
-                        sub_parent_keys = list(sub_obj.keys())
-                        if len(sub_parent_keys) == 1:
-                            parent_keys.append(sub_parent_keys[0])
-                            children_dicts.append(sub_obj)
-            else:
-                pass
-                # print(type(doc_obj))1
-        j = 0
-        for item in children_dicts:
-            pitem = item
-            if isinstance(item, dict):
-                pitem = list(item.keys())
-            elif isinstance(item, list):
-                pitem = []
-                for en in item:
-                    if isinstance(en, dict):
-                        new_keys = list(en.keys())
-                        for k in new_keys:
-                            pitem.append(k)
-            print('''
-            --------
-            Level {}
-            --------
-            parent: {}
-            children: {}
-            --------
-            '''.format(i, parent_keys[j], str(pitem)))
-            j += 1
-
-        print(len(parent_keys))
-        print(len(children_dicts))
-
-        dict_array = children_dicts
-        keep_iterating = nested_keys_exist(dict_array)
-        i += 1
-
-    for entry in SCHEMA_INDEX:
-        print(str(entry))
-
-# def process_object(input_obj):
-#     if isinstance(input_obj, dict):
-#         keys, values = __process_dict(input_obj)
-#     elif isinstance(input_obj, list):
-#         pass
-#     else:
-#         print()
-
-# def __process_dict(input: dict):
-
-#     input.fromkeys()
-    
-#     return input.keys(), list(input.values())
-
-def nested_keys_exist(value_array: list):
-    '''
-    Returns True or False depending on whether a list or dict is present in the input list.
-    '''
-    output = False
-    for value in value_array:
-        if isinstance(value, dict) or isinstance(value, list):
-            output = True
-            break
-    return output
-
-# def get_parent_keys(input_obj):
-
-
-# def get_children_keys(input_obj):
-#     '''
-#     Constructs a list of child keys for further processing.
-#     '''
-#     output_values = []
-#     output_keys = None
-#     try:
-#         keys = __get_child_keys_if_dict(output_values, input_obj)
-#         if not keys == None:
-#             output_keys = keys
-#         elif isinstance(input_obj, list):
-#             keys_group = []
-#             for ob in input_obj:
-#                 sub_keys = __get_child_keys_if_dict(output_values, ob)
-#                 for key in sub_keys:
-#                     keys_group.append(key)
-#             output_keys = keys_group
-#     except Exception as e:
-#         print(str(e))
-#     return output_values, output_keys
-
-# def __get_child_keys_if_dict(input_list: list, instance):
-#     child_keys = None
-#     if isinstance(instance, dict):
-#         child_keys = []
-#         for key, value in instance.items():
-#             # print(key)
-#             child_keys.append(key)
-#             if not value == None:
-#                 input_list.append(value)
-#     return child_keys
+    get_all_values(contents_dict)
 
 def get_default_parent_schema():
     return { 
