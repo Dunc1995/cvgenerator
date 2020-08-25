@@ -78,7 +78,9 @@ def add_new_schema():
         print('{} schema already exists!'.format(ui_input_type))
 
 def refresh_schema_hierarchy():
-    parser.get_schema_dict_from_file()
+    schemas_list = parser.get_schema_dict_from_file()
+    for schema in schemas_list:
+        cv.DB_CLIENT.upsert_schema_entry('type', schema['type'], schema)
 
 def add_schema_key():
     pass

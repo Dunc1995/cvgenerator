@@ -4,8 +4,6 @@ import importlib.resources as pkg_resources
 from . import templates  # relative-import the *package* containing the templates
 import cvgenerator as cv
 
-SCHEMA_INDEX = []
-
 def get_schema_template():
     return pkg_resources.read_text(templates, 'schemas_hierarchy.yaml')
 
@@ -41,6 +39,14 @@ def get_all_values(nested_dictionary):
             parent: {}
             children: {}
             '''.format(key, append_keys))
+            schema = get_default_parent_schema()
+            schema['type'] = key
+            for entry in append_keys:
+                schema['children'].append(entry)
+            cv.SCHEMAS.append(schema)
+        
+
+
     
     return __child_keys
 
@@ -48,12 +54,12 @@ def get_schema_dict_from_file():
     contents_string = get_local_schema_template()
     contents_dict = yaml.safe_load(contents_string)
     get_all_values(contents_dict)
+    return cv.SCHEMAS
 
 def get_default_parent_schema():
     return { 
         'type': None,
         'name': None,
-        'parent': None,
         'children': [],
         'tags': []
         }
