@@ -19,10 +19,11 @@ def get_local_schema_template():
 
 def get_all_values(nested_dictionary):
     __child_keys = []
-    append_keys = None
+    append_keys = []
 
     for key, value in nested_dictionary.items():
         __child_keys.append(key)
+        append_keys.clear()
 
         if type(value) is dict:
             append_keys = get_all_values(value)
