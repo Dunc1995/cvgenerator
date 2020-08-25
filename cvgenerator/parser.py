@@ -38,7 +38,7 @@ def get_schema_dict_from_file():
             elif isinstance(doc_obj, list):
                 for sub_obj in doc_obj:
                     if isinstance(sub_obj, dict):
-                        sub_parent_keys = sub_obj.keys()
+                        sub_parent_keys = list(sub_obj.keys())
                         if len(sub_parent_keys) == 1:
                             parent_keys.append(sub_parent_keys[0])
                             children_dicts.append(sub_obj)
@@ -49,7 +49,14 @@ def get_schema_dict_from_file():
         for item in children_dicts:
             pitem = item
             if isinstance(item, dict):
-                pitem = list(item.keys())[0]
+                pitem = list(item.keys())
+            elif isinstance(item, list):
+                pitem = []
+                for en in item:
+                    if isinstance(en, dict):
+                        new_keys = list(en.keys())
+                        for k in new_keys:
+                            pitem.append(k)
             print('''
             --------
             Level {}
@@ -57,8 +64,11 @@ def get_schema_dict_from_file():
             parent: {}
             children: {}
             --------
-            '''.format(i, parent_keys[j], str(item)))
+            '''.format(i, parent_keys[j], str(pitem)))
             j += 1
+
+        print(len(parent_keys))
+        print(len(children_dicts))
 
         dict_array = children_dicts
         keep_iterating = nested_keys_exist(dict_array)
