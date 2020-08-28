@@ -20,6 +20,7 @@ def get_all_values(nested_dictionary):
     '''Propagates through every key value pair in an input dict, then appends each key and its properties to the SCHEMAS list in __init__.py.'''
     __child_keys = []
     append_keys = []
+    is_list = False
 
     for key, value in nested_dictionary.items():
         __child_keys.append(key)
@@ -29,6 +30,7 @@ def get_all_values(nested_dictionary):
             append_keys = get_all_values(value)
         elif type(value) is list:
             append_keys = []
+            is_list = True
             for item in value:
                 __sub_group = get_all_values(item)
                 for i in __sub_group:
@@ -37,18 +39,23 @@ def get_all_values(nested_dictionary):
             pass
             # print(key, ":", value)
         if not append_keys == None and len(append_keys) > 0:
-            print('''
-            parent: {}
-            children: {}
-            '''.format(key, append_keys))
+            #TODO add this print method to a logger
+            # print('''
+            # parent: {}
+            # children: {}
+            # '''.format(key, append_keys))
             schema = get_base_parent_schema()
             schema['type'] = key
+            schema['name'] = key.replace('_', ' ').title()
+            schema['listable'] = is_list
             for entry in append_keys:
                 schema['children'].append(entry)
             cv.SCHEMAS.append(schema)
         elif append_keys == None or len(append_keys) == 0:
             schema = get_base_child_schema()
             schema['type'] = key
+            schema['name'] = key.replace('_', ' ').title()
+            schema['listable'] = is_list
             cv.SCHEMAS.append(schema)
 
     return __child_keys
@@ -66,7 +73,8 @@ def get_base_parent_schema():
         'base_type': 'parent',
         'name': None,
         'children': [],
-        'tags': []
+        'tags': [],
+        'listable': False
         }
 
 def get_base_child_schema():
@@ -75,5 +83,6 @@ def get_base_child_schema():
         'name': None,
         'base_type': 'child',
         'value': None,
-        'tags': []
+        'tags': [],
+        'listable': False
         }

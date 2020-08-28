@@ -7,7 +7,7 @@ def placeholder():
 
 COMPILER_MENU = menu('compile', 'Please select an option.')
 COMPILER_MENU.add_options([
-    choice('Generate CV', placeholder),
+    choice('', placeholder),
     choice('Select tag preferences', placeholder)
 ])
 

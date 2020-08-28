@@ -5,8 +5,10 @@ import os.path as path
 import os
 import sys
 import cvgenerator.forms as forms
+import cvgenerator.workflows.utilities as utils
 import cvgenerator.wrappers.tinydb as db
 import cvgenerator.parser as resource_parser
+
 
 def main():
     '''Attempts to parse the input file path and upload it to a sqlite3 database.'''
@@ -29,6 +31,10 @@ def main():
 
     os.chdir(cv.ROOT_DIRECTORY)
     cv.DB_CLIENT = db.client()
+
+    if args.initialise == True:
+        utils.refresh_schema_hierarchy()
+
     forms.MAIN_MENU.show()
 
 def write_to_file(file_path: str, contents: str):

@@ -1,24 +1,24 @@
 curriculum_vitae:
-    personal_details_section:
-        - full_name: null
-        - address: null
-        - contact: null
-    summary_section:
+    personal_details:
+        full_name: null
+        address: null
+        contact: null
+    summary:
         - note: null
-    work_experience_section:
-        - work_experience:
+    work_experience:
+        - work_experience_entry:
             start_date: null
             end_date: null
             address: null
-            responsibility_section:
+            responsibilities:
                 - responsibility: null
-            achievement_section:
+            achievements:
                 - achievement: null
-            note_section:
-                - note: null
+            note:
+                - entry: null
             reason_for_leaving: null
-    education_section:
-        - education:
+    education:
+        - education_entry:
             institution: null
             start_date: null
             end_date: null
