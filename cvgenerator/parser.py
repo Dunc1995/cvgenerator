@@ -5,6 +5,7 @@ from . import templates  # relative-import the *package* containing the template
 import cvgenerator as cv
 
 def get_schema_template():
+    '''Loads the schemas_hierarchy.yaml file from the python package.'''
     return pkg_resources.read_text(templates, 'schemas_hierarchy.yaml')
 
 def get_local_schema_template():
@@ -16,6 +17,7 @@ def get_local_schema_template():
     return contents
 
 def get_all_values(nested_dictionary):
+    '''Propagates through every key value pair in an input dict, then appends each key and its properties to the SCHEMAS list in __init__.py.'''
     __child_keys = []
     append_keys = []
 
@@ -51,7 +53,8 @@ def get_all_values(nested_dictionary):
 
     return __child_keys
 
-def get_schema_dict_from_file():
+def get_schemas_from_yaml():
+    '''Parses the schemas_hierarchy.yaml contents and creates dicts for each data type.'''
     contents_string = get_local_schema_template()
     contents_dict = yaml.safe_load(contents_string)
     get_all_values(contents_dict)
