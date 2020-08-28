@@ -4,6 +4,9 @@ from PyInquirer import prompt, Separator
 from examples import custom_style_2
 import cvgenerator as cv
 
+# from PyInquirer import style_from_dict, Token, prompt, print_json
+# from PyInquirer import Validator, ValidationError
+
 class choice():
     def __init__(self, name, method=None):
         self.name = name
@@ -138,3 +141,21 @@ class prompts():
         '''
         return prompt(questions)
         
+    @staticmethod
+    def editor():
+        print('balls')
+        questions = [
+            {
+                'type': 'editor',
+                'name': 'bio',
+                'message': 'Enter text block:\n',
+                'default': 'Enter your text here...',
+                'eargs': {
+                    'editor':'nano',
+                    'ext':'.txt'
+                }
+            }
+        ]
+
+        answers = prompt(questions, style=custom_style_2)
+        pprint(answers)

@@ -45,3 +45,6 @@ class client():
 
     def upsert_data_entry(self, key: str, value: str, data: dict):
         self.data.upsert(data, GENERIC_QUERY[key] == value)
+
+    def drop_schemas_table(self):
+        self.db.drop_table('schemas')

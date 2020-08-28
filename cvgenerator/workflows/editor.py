@@ -9,3 +9,6 @@ def assign_tags_to_data():
     pass
     # print(cv.DATA.all())
     # placeholder()
+
+def test():
+    prompts.editor()

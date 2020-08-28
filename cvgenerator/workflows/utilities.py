@@ -93,6 +93,6 @@ def edit_default_schema_names():
 
 def refresh_schema_hierarchy():
     schemas_list = parser.get_schemas_from_yaml()
+    cv.DB_CLIENT.drop_schemas_table()
     for schema in schemas_list:
-        #! Probably worth making this 1. clear table 2. insert new schemas rather than upserting existing schemas
-        cv.DB_CLIENT.upsert_schema_entry('type', schema['type'], schema)
+        cv.DB_CLIENT.insert_schema_entry(schema)

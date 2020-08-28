@@ -14,7 +14,7 @@ COMPILER_MENU.add_options([
 EDITOR_MENU = menu('edit', 'What would you like to edit?')
 EDITOR_MENU.add_options([
     choice('Browse data', placeholder),
-    choice('Insert data', placeholder),
+    choice('Insert data', editor.test),
     choice('Update existing data', placeholder),
     choice('Remove existing data', placeholder),
     choice('Help', placeholder)
