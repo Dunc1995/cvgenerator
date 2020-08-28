@@ -39,15 +39,16 @@ def get_all_values(nested_dictionary):
             parent: {}
             children: {}
             '''.format(key, append_keys))
-            schema = get_default_parent_schema()
+            schema = get_base_parent_schema()
             schema['type'] = key
             for entry in append_keys:
                 schema['children'].append(entry)
             cv.SCHEMAS.append(schema)
-        
+        elif append_keys == None or len(append_keys) == 0:
+            schema = get_base_child_schema()
+            schema['type'] = key
+            cv.SCHEMAS.append(schema)
 
-
-    
     return __child_keys
 
 def get_schema_dict_from_file():
@@ -56,19 +57,20 @@ def get_schema_dict_from_file():
     get_all_values(contents_dict)
     return cv.SCHEMAS
 
-def get_default_parent_schema():
+def get_base_parent_schema():
     return { 
         'type': None,
+        'base_type': 'parent',
         'name': None,
         'children': [],
         'tags': []
         }
 
-def get_default_schema():
+def get_base_child_schema():
     return { 
         'type': None,
         'name': None,
+        'base_type': 'child',
         'value': None,
-        'parent': None,
         'tags': []
         }
