@@ -9,7 +9,7 @@ import cvgenerator.workflows.utilities as utils
 import cvgenerator.wrappers.tinydb as db
 import cvgenerator.parser as resource_parser
 
-
+#! This whole method needs refactoring
 def main():
     '''Attempts to parse the input file path and upload it to a sqlite3 database.'''
     parser = argparse.ArgumentParser(description='Utility to help create CV information without constantly having to rewrite information.')
@@ -18,27 +18,35 @@ def main():
     args = parser.parse_args()
 
     if args.initialise == True:
-        schema_template = resource_parser.get_schema_template()
-
         if not path.exists(cv.ROOT_DIRECTORY):
             os.mkdir(cv.ROOT_DIRECTORY)
-            schema_path = os.path.join(cv.ROOT_DIRECTORY, 'schemas_hierarchy.yaml')
-            write_to_file(schema_path, schema_template)
     else:
         if not path.exists(cv.ROOT_DIRECTORY):
             print('If your CV data already exists, please navigate to its root directory, otherwise run \'cvgenerator -init\' to get started.')
             sys.exit(1)
 
     os.chdir(cv.ROOT_DIRECTORY)
+
+    if not path.exists('data'):
+        os.mkdir('data')
+
     cv.DB_CLIENT = db.client()
 
     if args.initialise == True:
+        #TODO make this pattern into one function.
+        if not path.exists('config'):
+            os.mkdir('config')
+        
+        schema_template = resource_parser.get_pkg_file('schemas_hierarchy.yaml')
+        default_tags = resource_parser.get_pkg_file('default_tags.yaml')
+        write_to_file(cv.SCHEMAS_PATH, schema_template)
+        write_to_file(cv.TAGS_PATH, default_tags)
         utils.refresh_schema_hierarchy()
 
     forms.MAIN_MENU.show()
 
 def write_to_file(file_path: str, contents: str):
-    with open(file_path, 'w') as file:
+    with open(file_path, 'w+') as file:
         file.write(contents)
         file.close()
 

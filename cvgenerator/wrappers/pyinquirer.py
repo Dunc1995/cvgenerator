@@ -143,19 +143,90 @@ class prompts():
         
     @staticmethod
     def editor():
-        print('balls')
         questions = [
             {
                 'type': 'editor',
                 'name': 'bio',
-                'message': 'Enter text block:\n',
+                'message': 'Edits:\n',
                 'default': 'Enter your text here...',
                 'eargs': {
                     'editor':'nano',
-                    'ext':'.txt'
+                    'ext':'.yaml'
                 }
             }
         ]
 
         answers = prompt(questions, style=custom_style_2)
         pprint(answers)
+
+    @staticmethod
+    def checkbox():
+        questions = [
+            {
+                'type': 'checkbox',
+                'qmark': '😃',
+                'message': 'Select toppings',
+                'name': 'toppings',
+                'choices': [ 
+                    Separator('= The Meats ='),
+                    {
+                        'name': 'Ham'
+                    },
+                    {
+                        'name': 'Ground Meat'
+                    },
+                    {
+                        'name': 'Bacon'
+                    },
+                    Separator('= The Cheeses ='),
+                    {
+                        'name': 'Mozzarella',
+                        'checked': True
+                    },
+                    {
+                        'name': 'Cheddar'
+                    },
+                    {
+                        'name': 'Parmesan'
+                    },
+                    Separator('= The usual ='),
+                    {
+                        'name': 'Mushroom'
+                    },
+                    {
+                        'name': 'Tomato'
+                    },
+                    {
+                        'name': 'Pepperoni'
+                    },
+                    Separator('= The extras ='),
+                    {
+                        'name': 'Pineapple'
+                    },
+                    {
+                        'name': 'Olives',
+                        'disabled': 'out of stock'
+                    },
+                    {
+                        'name': 'Extra cheese'
+                    }
+                ],
+                'validate': lambda answer: 'You must choose at least one topping.' \
+                    if len(answer) == 0 else True
+            }
+        ]
+
+        answers = prompt(questions, style=custom_style_2)
+        pprint(answers)
+
+    @staticmethod
+    def confirm(message: str, default=False):
+        '''Confirms whether a user wants to continue.'''
+        answer = prompt({
+                'type': 'confirm',
+                'message': message,
+                'name': 'confirm',
+                'default': default,
+            }, style=custom_style_2)
+        
+        return answer['confirm']

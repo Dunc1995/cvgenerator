@@ -4,15 +4,15 @@ import importlib.resources as pkg_resources
 from . import templates  # relative-import the *package* containing the templates
 import cvgenerator as cv
 
-def get_schema_template():
-    '''Loads the schemas_hierarchy.yaml file from the python package.'''
-    return pkg_resources.read_text(templates, 'schemas_hierarchy.yaml')
+def get_pkg_file(file_name: str):
+    '''Loads the input file name from the python package.'''
+    return pkg_resources.read_text(templates, file_name)
 
-def get_local_schema_template():
+def get_local_file(file_name: str):
     '''
-    Returns the schemas_hierarchy template in the cv_bin directory.
+    Returns the local file in the cv_bin directory.
     '''
-    with open('schemas_hierarchy.yaml', 'r') as file:
+    with open(file_name, 'r') as file:
         contents = file.read()
     return contents
 
@@ -62,7 +62,7 @@ def get_all_values(nested_dictionary):
 
 def get_schemas_from_yaml():
     '''Parses the schemas_hierarchy.yaml contents and creates dicts for each data type.'''
-    contents_string = get_local_schema_template()
+    contents_string = get_local_file('./config/schemas_hierarchy.yaml')
     contents_dict = yaml.safe_load(contents_string)
     get_all_values(contents_dict)
     return cv.SCHEMAS

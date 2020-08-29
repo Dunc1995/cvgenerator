@@ -86,13 +86,18 @@ def edit_existing_schema():
 #         print('{} schema already exists!'.format(ui_input_type))
 
 def edit_default_schema_tags():
-    print('Not implemented!')
+    prompts.checkbox()
 
 def edit_default_schema_names():
     print('Not implemented!')
 
 def refresh_schema_hierarchy():
-    schemas_list = parser.get_schemas_from_yaml()
-    cv.DB_CLIENT.drop_schemas_table()
-    for schema in schemas_list:
-        cv.DB_CLIENT.insert_schema_entry(schema)
+    should_continue = prompts.confirm('This will delete any default tags you have added to your data.\n Are you sure you want to continue?')
+
+    if should_continue == True:
+        schemas_list = parser.get_schemas_from_yaml()
+        cv.DB_CLIENT.drop_schemas_table()
+        for schema in schemas_list:
+            cv.DB_CLIENT.insert_schema_entry(schema)
+    else:
+        print('Action cancelled.')

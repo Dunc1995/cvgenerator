@@ -4,7 +4,7 @@ GENERIC_QUERY = Query()
 
 class client():
     def __init__(self):
-        self.db = TinyDB('./cv_db.json', sort_keys=True, indent=4, separators=(',', ': '))
+        self.db = TinyDB('./data/db.json', sort_keys=True, indent=4, separators=(',', ': '))
         self.tags = self.db.table('tags')
         self.schemas = self.db.table('schemas')
         self.data = self.db.table('data')
