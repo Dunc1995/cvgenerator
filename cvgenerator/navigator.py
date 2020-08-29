@@ -1,6 +1,9 @@
 import cvgenerator as cv
 import cvgenerator.wrappers.tinydb as __db
+import cvgenerator.forms as forms
 from cvgenerator.wrappers.pyinquirer import prompts
+
+SCHEMA_CACHE = []
 
 def start():
     #? Every remaining schema should be a child to this schema.
@@ -9,19 +12,19 @@ def start():
     cycle_through_schemas(entry_schema)
 
 def cycle_through_schemas(input_schema):
-    exit = False
-    while exit == False:
-        selection_array = input_schema['children']
-        selection_array.append(prompts.get_separator())
-        selection_array.append('<<< Back')
-        selection_array.append('<X> Exit')
-
-        user_selection = prompts.list_prompt(input_schema['type'], 'Please select a schema:\n', selection_array )
-        
-        if user_selection == '<X> Exit':
-            exit = True
-        else:
-            cycle_through_schemas(cv.DB_CLIENT.get_schema(user_selection))
+    # SCHEMA_CACHE.append(input_schema)
+    # print(SCHEMA_CACHE)
+    selection_form = forms.get_navigator_menu(input_schema['children'])
+    answer = selection_form.show()
+    
+    if cv.IS_EXITED == False and not answer == selection_form.back_option.name:
+        next_schema = cv.DB_CLIENT.get_schema(answer)
+        cycle_through_schemas(next_schema)
+    elif answer == selection_form.back_option.name:
+        print(input_schema)
+        cycle_through_schemas(input_schema)
+    
+    
 
 #? For testing purposes:
 if __name__ == "__main__":

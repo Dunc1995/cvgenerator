@@ -16,7 +16,7 @@ def get_local_file(file_name: str):
         contents = file.read()
     return contents
 
-def get_all_values(nested_dictionary, index=0):
+def get_all_values(nested_dictionary, index=0, parent_key=None):
     '''Propagates through every key value pair in an input dict, then appends each key and its properties to the SCHEMAS list in __init__.py.'''
     __child_keys = []
     append_keys = []
@@ -28,12 +28,12 @@ def get_all_values(nested_dictionary, index=0):
         append_keys.clear()
 
         if type(value) is dict:
-            append_keys = get_all_values(value, index=nested_index)
+            append_keys = get_all_values(value, index=nested_index, parent_key=key)
         elif type(value) is list:
             append_keys = []
             is_list = True
             for item in value:
-                __sub_group = get_all_values(item, index=nested_index)
+                __sub_group = get_all_values(item, index=nested_index, parent_key=key)
                 for i in __sub_group:
                     append_keys.append(i)
         else:
@@ -51,6 +51,7 @@ def get_all_values(nested_dictionary, index=0):
             schema['name'] = key.replace('_', ' ').title()
             schema['listable_children'] = is_list
             schema['nested_level'] = nested_index
+            schema['parent'] = parent_key
             for entry in append_keys:
                 schema['children'].append(entry)
             cv.SCHEMAS.append(schema)
@@ -60,6 +61,7 @@ def get_all_values(nested_dictionary, index=0):
             schema['name'] = key.replace('_', ' ').title()
             schema['listable_children'] = is_list
             schema['nested_level'] = nested_index
+            schema['parent'] = parent_key
             cv.SCHEMAS.append(schema)
 
     return __child_keys
@@ -75,6 +77,7 @@ def get_base_parent_schema():
     return { 
         'type': None,
         'base_type': 'parent',
+        'parent': None,
         'name': None,
         'children': [],
         'tags': [],
@@ -87,6 +90,7 @@ def get_base_child_schema():
         'type': None,
         'name': None,
         'base_type': 'child',
+        'parent': None,
         'value': None,
         'tags': [],
         'listable_children': False,

@@ -34,3 +34,9 @@ MAIN_MENU.add_options([
     choice('Edit your CV', EDITOR_MENU.show),
     choice('Data Utilities', UTILITIES_MENU.show)
 ])
+
+def get_navigator_menu(input_array: list):
+    navigator_menu = menu('navigate', 'Please select a schema:\n')
+    choice_array = [ choice(name) for name in input_array ]
+    navigator_menu.add_options(choice_array)
+    return navigator_menu

@@ -33,6 +33,7 @@ class menu():
         
     def show(self):
         '''displays the list menu'''
+        output = None
         self.escaped = False
         
         if self.has_been_shown == False:
@@ -51,8 +52,12 @@ class menu():
                 'choices': self.__get_choice_names()
             }, style=custom_style_2)
             choice = self.__return_choice(answer[self.name])
-            if not choice == None:
+            output = choice.name
+            if not choice == None and not choice.connector == None:
                 choice.call_connector()
+            else:
+                self.escaped = True
+        return output
 
     def add_option(self, input: choice):
         self.choices.append(input)
