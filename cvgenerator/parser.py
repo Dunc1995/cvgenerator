@@ -16,23 +16,24 @@ def get_local_file(file_name: str):
         contents = file.read()
     return contents
 
-def get_all_values(nested_dictionary):
+def get_all_values(nested_dictionary, index=0):
     '''Propagates through every key value pair in an input dict, then appends each key and its properties to the SCHEMAS list in __init__.py.'''
     __child_keys = []
     append_keys = []
     is_list = False
+    nested_index = index+1
 
     for key, value in nested_dictionary.items():
         __child_keys.append(key)
         append_keys.clear()
 
         if type(value) is dict:
-            append_keys = get_all_values(value)
+            append_keys = get_all_values(value, index=nested_index)
         elif type(value) is list:
             append_keys = []
             is_list = True
             for item in value:
-                __sub_group = get_all_values(item)
+                __sub_group = get_all_values(item, index=nested_index)
                 for i in __sub_group:
                     append_keys.append(i)
         else:
@@ -44,10 +45,12 @@ def get_all_values(nested_dictionary):
             # parent: {}
             # children: {}
             # '''.format(key, append_keys))
+            #! Remove this duplication
             schema = get_base_parent_schema()
             schema['type'] = key
             schema['name'] = key.replace('_', ' ').title()
-            schema['listable'] = is_list
+            schema['listable_children'] = is_list
+            schema['nested_level'] = nested_index
             for entry in append_keys:
                 schema['children'].append(entry)
             cv.SCHEMAS.append(schema)
@@ -55,7 +58,8 @@ def get_all_values(nested_dictionary):
             schema = get_base_child_schema()
             schema['type'] = key
             schema['name'] = key.replace('_', ' ').title()
-            schema['listable'] = is_list
+            schema['listable_children'] = is_list
+            schema['nested_level'] = nested_index
             cv.SCHEMAS.append(schema)
 
     return __child_keys
@@ -74,7 +78,8 @@ def get_base_parent_schema():
         'name': None,
         'children': [],
         'tags': [],
-        'listable': False
+        'listable_children': False,
+        'nested_level': None
         }
 
 def get_base_child_schema():
@@ -84,5 +89,6 @@ def get_base_child_schema():
         'base_type': 'child',
         'value': None,
         'tags': [],
-        'listable': False
+        'listable_children': False,
+        'nested_level': None
         }

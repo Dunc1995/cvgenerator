@@ -96,7 +96,7 @@ class prompts():
     This class abstracts them away so questions take up little space for complex methods.
     '''
     @staticmethod
-    def input_prompt(name: str, message: str, prompt_now=True):
+    def input_prompt(name: str, message: str, prompt_now=True, default=None):
         '''
         If the prompt is used at invocation, input_prompt will return the user's selection;
         if not it returns the question dict for later use.
@@ -105,7 +105,8 @@ class prompts():
         question = {
             'type': 'input',
             'name': name,
-            'message': message
+            'message': message,
+            'default': default
         }
         if prompt_now == True:
             answer = prompt(question)
@@ -230,3 +231,7 @@ class prompts():
             }, style=custom_style_2)
         
         return answer['confirm']
+
+    @staticmethod
+    def get_separator(input=None):
+        return Separator(input)

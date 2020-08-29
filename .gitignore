@@ -127,4 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Additional
 cv_bin
+query_tester.py
+

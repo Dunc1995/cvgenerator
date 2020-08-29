@@ -3,8 +3,8 @@ from tinydb import TinyDB, Query
 GENERIC_QUERY = Query()
 
 class client():
-    def __init__(self):
-        self.db = TinyDB('./data/db.json', sort_keys=True, indent=4, separators=(',', ': '))
+    def __init__(self, file_path='./data/db.json'):
+        self.db = TinyDB(file_path, sort_keys=True, indent=4, separators=(',', ': '))
         self.tags = self.db.table('tags')
         self.schemas = self.db.table('schemas')
         self.data = self.db.table('data')
@@ -37,6 +37,7 @@ class client():
     def insert_schema_entry(self, schema: dict):
         self.schemas.insert(schema)
 
+    #! Refactor this rubbish
     def upsert_tag_entry(self, key: str, value: str, data: dict):
         self.tags.upsert(data, GENERIC_QUERY[key] == value)
 
