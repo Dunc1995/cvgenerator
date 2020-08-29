@@ -3,6 +3,7 @@ import cvgenerator as cv
 from cvgenerator.wrappers.pyinquirer import prompts
 import json
 import cvgenerator.parser as parser
+import cvgenerator.navigator as navigator
 import textwrap
 
 def show_help():
@@ -86,7 +87,7 @@ def edit_existing_schema():
 #         print('{} schema already exists!'.format(ui_input_type))
 
 def edit_default_schema_tags():
-    prompts.checkbox()
+    navigator.start()
 
 def edit_default_schema_names():
     print('Not implemented!')

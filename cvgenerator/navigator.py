@@ -14,15 +14,23 @@ def start():
 def cycle_through_schemas(input_schema):
     # SCHEMA_CACHE.append(input_schema)
     # print(SCHEMA_CACHE)
-    selection_form = forms.get_navigator_menu(input_schema['children'])
+    choice_array = []
+    choice_array.append(prompts.get_separator('=====Parent====='))
+    choice_array.append(input_schema['name'])
+    choice_array.append(prompts.get_separator('====Children===='))
+    for item in input_schema['children']:
+        choice_array.append(item)
+
+    selection_form = forms.get_navigator_menu(choice_array)
     answer = selection_form.show()
     
     if cv.IS_EXITED == False and not answer == selection_form.back_option.name:
         next_schema = cv.DB_CLIENT.get_schema(answer)
         cycle_through_schemas(next_schema)
     elif answer == selection_form.back_option.name:
-        print(input_schema)
-        cycle_through_schemas(input_schema)
+        if not input_schema['parent'] == None:
+            previous_schema = cv.DB_CLIENT.get_schema(input_schema['parent'])
+            cycle_through_schemas(previous_schema)
     
     
 
