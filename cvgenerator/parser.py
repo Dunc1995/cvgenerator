@@ -4,6 +4,8 @@ import importlib.resources as pkg_resources
 from . import templates  # relative-import the *package* containing the templates
 import cvgenerator as cv
 
+schema_index = 1
+
 def get_pkg_file(file_name: str):
     '''Loads the input file name from the python package.'''
     return pkg_resources.read_text(templates, file_name)
@@ -21,12 +23,13 @@ def get_all_values(nested_dictionary, index=0, parent_key=None):
     __child_keys = []
     append_keys = []
     nested_index = index+1
+    global schema_index
 
     for key, value in nested_dictionary.items():
         is_list = False
         __child_keys.append(key)
         append_keys.clear()
-
+        
         if type(value) is dict:
             append_keys = get_all_values(value, index=nested_index, parent_key=key)
         elif type(value) is list:
@@ -60,7 +63,8 @@ def get_all_values(nested_dictionary, index=0, parent_key=None):
             schema['base_type'] = 'child'
         #TODO could with some validation before appending
         cv.SCHEMAS.append(schema)
-
+        print('name: {}, index: {}'.format(key, schema_index))
+        schema_index += 1
     return __child_keys
 
 def get_schemas_from_yaml():

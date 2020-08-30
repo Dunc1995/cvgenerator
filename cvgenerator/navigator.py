@@ -1,5 +1,5 @@
 import cvgenerator as cv
-import cvgenerator.wrappers.tinydb as __db
+import cvgenerator.wrappers.tinydb as __db #? this is only needed when running 'python -i navigator.py'
 import cvgenerator.forms as forms
 from cvgenerator.wrappers.pyinquirer import prompts
 
@@ -31,7 +31,8 @@ def cycle_through_schemas(input_schema):
         if not input_schema['parent'] == None:
             previous_schema = cv.DB_CLIENT.get_schema(input_schema['parent'])
             cycle_through_schemas(previous_schema)
-    
+    elif answer == None:
+        print('EDITING')
     
 
 #? For testing purposes:
