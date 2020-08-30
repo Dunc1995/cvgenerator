@@ -20,10 +20,10 @@ def get_all_values(nested_dictionary, index=0, parent_key=None):
     '''Propagates through every key value pair in an input dict, then appends each key and its properties to the SCHEMAS list in __init__.py.'''
     __child_keys = []
     append_keys = []
-    is_list = False
     nested_index = index+1
 
     for key, value in nested_dictionary.items():
+        is_list = False
         __child_keys.append(key)
         append_keys.clear()
 
