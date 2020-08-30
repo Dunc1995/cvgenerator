@@ -96,6 +96,7 @@ def refresh_schema_hierarchy():
     should_continue = prompts.confirm('This will delete any default tags you have added to your data.\n Are you sure you want to continue?')
 
     if should_continue == True:
+        cv.SCHEMAS.clear()
         schemas_list = parser.get_schemas_from_yaml()
         cv.DB_CLIENT.drop_schemas_table()
         for schema in schemas_list:

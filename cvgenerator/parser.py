@@ -39,30 +39,27 @@ def get_all_values(nested_dictionary, index=0, parent_key=None):
         else:
             pass
             # print(key, ":", value)
+
+        schema = get_default_schema()
+        schema['type'] = key
+        schema['name'] = key.replace('_', ' ').title()
+        schema['listable_children'] = is_list
+        schema['nested_level'] = nested_index
+        schema['parent'] = parent_key
+
         if not append_keys == None and len(append_keys) > 0:
             #TODO add this print method to a logger
             # print('''
             # parent: {}
             # children: {}
             # '''.format(key, append_keys))
-            #! Remove this duplication
-            schema = get_base_parent_schema()
-            schema['type'] = key
-            schema['name'] = key.replace('_', ' ').title()
-            schema['listable_children'] = is_list
-            schema['nested_level'] = nested_index
-            schema['parent'] = parent_key
+            schema['base_type'] = 'parent'
             for entry in append_keys:
                 schema['children'].append(entry)
-            cv.SCHEMAS.append(schema)
         elif append_keys == None or len(append_keys) == 0:
-            schema = get_base_child_schema()
-            schema['type'] = key
-            schema['name'] = key.replace('_', ' ').title()
-            schema['listable_children'] = is_list
-            schema['nested_level'] = nested_index
-            schema['parent'] = parent_key
-            cv.SCHEMAS.append(schema)
+            schema['base_type'] = 'child'
+        #TODO could with some validation before appending
+        cv.SCHEMAS.append(schema)
 
     return __child_keys
 
@@ -73,25 +70,13 @@ def get_schemas_from_yaml():
     get_all_values(contents_dict)
     return cv.SCHEMAS
 
-def get_base_parent_schema():
+def get_default_schema():
     return { 
         'type': None,
-        'base_type': 'parent',
+        'base_type': None,
         'parent': None,
         'name': None,
         'children': [],
-        'tags': [],
-        'listable_children': False,
-        'nested_level': None
-        }
-
-def get_base_child_schema():
-    return { 
-        'type': None,
-        'name': None,
-        'base_type': 'child',
-        'parent': None,
-        'value': None,
         'tags': [],
         'listable_children': False,
         'nested_level': None
