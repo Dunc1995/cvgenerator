@@ -27,70 +27,14 @@ def show_help():
     #TODO find a better way to print
     print(text)
 
-def edit_existing_schema():
-    pass
-    # global __SCHEMA_PLACEHOLDER
-    # query = Query()
-    # schema_to_edit = None
-    # data_types = __get_entries_list(cv.TYPES, 'types')
-    # questions = {
-    #     'type': 'list',
-    #     'name': 'type',
-    #     'message': 'Select a data type to edit.',
-    #     'choices': data_types
-    # }
-    # answers = prompt(questions)
-    # schema_to_edit = __get_schema(answers['type'])
-
-    # print('The following schema exists for the {} type:\n'.format(answers['type']))
-    # print(json.dumps(schema_to_edit, indent=4))
-
-    # __SCHEMA_PLACEHOLDER = schema_to_edit
-    # forms.SCHEMA_MENU.show()
-
-# def add_new_schema():
-#     adding_children = None
-#     parent_schema = get_default_schema()
-#     types_list = cv.DB_CLIENT.get_all_types()
-#     first_child_prompt_prompted = False
-
-#     ui_input_type = prompts.input_prompt('type', 'What name do you want to give your schema?')
-#     if not ui_input_type in types_list:
-#         parent_schema['type'] = ui_input_type
-#         cv.DB_CLIENT.upsert_schema_entry('type', ui_input_type, parent_schema)
-
-#         ui_children_yes_no = prompts.input_prompt('child_bool', 'Does your new schema have any children schemas? (y/n)\n For example, does it possess a start_date or end_date?')
-#         if ui_children_yes_no == 'y':
-#             while not adding_children == 'n':        
-#                 if first_child_prompt_prompted == True:
-#                     adding_children = prompts.input_prompt('continue', 'Continue adding children? (y/n)')
-
-#                 if not adding_children == 'n':        
-#                     ui_input_child_type = prompts.input_prompt('child', 'Please enter a name for the child schema.')
-#                     parent_schema['children_types'].append(ui_input_child_type)
-#                     cv.DB_CLIENT.upsert_schema_entry('type', ui_input_type, parent_schema)
-
-#                     if ui_input_child_type in types_list:
-#                         existing_child = cv.DB_CLIENT.get_schema(ui_input_child_type)
-#                         existing_child['parent_types'].append(ui_input_type) #? adds the parent schema to its parent list
-#                         cv.DB_CLIENT.upsert_schema_entry('type', ui_input_child_type, existing_child)
-#                     else:
-#                         child_schema = get_default_schema()
-#                         child_schema['type'] = ui_input_child_type
-#                         child_schema['parent_types'].append(ui_input_type)
-#                         cv.DB_CLIENT.insert_schema(child_schema)
-
-#                 first_child_prompt_prompted = True
-#         else:
-#             print('{} schema added!'.format(ui_input_type))
-#     else:
-#         print('{} schema already exists!'.format(ui_input_type))
-
 def edit_default_schema_tags():
     navigator.start()
 
 def edit_default_schema_names():
     print('Not implemented!')
+
+def edit_schema_hierarchy():
+    prompts.edit_existing_file(cv.SCHEMAS_PATH)
 
 def refresh_schema_hierarchy():
     should_continue = prompts.confirm('This will delete any default tags you have added to your data.\n Are you sure you want to continue?')

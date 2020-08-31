@@ -24,6 +24,8 @@ UTILITIES_MENU = menu('utilities', 'Options')
 UTILITIES_MENU.add_options([
     choice('Edit default schema names', utilities.edit_default_schema_names),
     choice('Edit default schema tags', utilities.edit_default_schema_tags),
+    choice('Edit schema hierarchy', utilities.edit_schema_hierarchy),
+    choice('Edit tag options', utilities.edit_tag_options),
     choice('Refresh schema hierarchy', utilities.refresh_schema_hierarchy),
     choice('Help', utilities.show_help)
 ])
@@ -35,10 +37,14 @@ MAIN_MENU.add_options([
     choice('Data Utilities', UTILITIES_MENU.show)
 ])
 
+#! This is jenky and probably very breakable.
 def get_navigator_menu(input_array: list):
     choice_array = []
     navigator_menu = menu('navigate', 'Please select a schema:\n')
-    for name in input_array:
-        choice_array.append(name)
+    for item in input_array:
+        if not type(item) is choice:
+            choice_array.append(choice(item))
+        else:
+            choice_array.append(item)
     navigator_menu.add_options(choice_array)
     return navigator_menu

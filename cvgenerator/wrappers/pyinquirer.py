@@ -59,12 +59,12 @@ class menu():
                 self.escaped = True
         return output
 
-    def add_option(self, input: choice):
+    def add_choice(self, input: choice):
         self.choices.append(input)
 
-    def add_options(self, input: list):
+    def add_choices(self, input: list):
         for i in input:
-            self.add_option(i)
+            self.add_choice(i)
 
     def __get_choice_names(self):
         '''takes the choice objects in self.choices and creates a list of their names'''
@@ -148,21 +148,18 @@ class prompts():
         return prompt(questions)
         
     @staticmethod
-    def editor():
-        questions = [
-            {
+    def edit_existing_file(file_path: str):
+        question = {
                 'type': 'editor',
-                'name': 'bio',
+                'name': 'edits',
                 'message': 'Edits:\n',
                 'eargs': {
                     'editor':'nano',
-                    'filename': './config/schemas_hierarchy.yaml'
+                    'filename': file_path
                 }
             }
-        ]
 
-        answers = prompt(questions, style=custom_style_2)
-        pprint(answers)
+        prompt(question, style=custom_style_2)
 
     @staticmethod
     def checkbox():
@@ -177,47 +174,7 @@ class prompts():
                     {
                         'name': 'Ham'
                     },
-                    {
-                        'name': 'Ground Meat'
-                    },
-                    {
-                        'name': 'Bacon'
-                    },
-                    Separator('= The Cheeses ='),
-                    {
-                        'name': 'Mozzarella',
-                        'checked': True
-                    },
-                    {
-                        'name': 'Cheddar'
-                    },
-                    {
-                        'name': 'Parmesan'
-                    },
-                    Separator('= The usual ='),
-                    {
-                        'name': 'Mushroom'
-                    },
-                    {
-                        'name': 'Tomato'
-                    },
-                    {
-                        'name': 'Pepperoni'
-                    },
-                    Separator('= The extras ='),
-                    {
-                        'name': 'Pineapple'
-                    },
-                    {
-                        'name': 'Olives',
-                        'disabled': 'out of stock'
-                    },
-                    {
-                        'name': 'Extra cheese'
-                    }
-                ],
-                'validate': lambda answer: 'You must choose at least one topping.' \
-                    if len(answer) == 0 else True
+                ]
             }
         ]
 

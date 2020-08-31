@@ -11,4 +11,5 @@ def assign_tags_to_data():
     # placeholder()
 
 def test():
-    prompts.editor()
+    pass
+    # prompts.editor()
