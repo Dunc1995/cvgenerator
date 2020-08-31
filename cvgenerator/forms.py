@@ -36,7 +36,9 @@ MAIN_MENU.add_options([
 ])
 
 def get_navigator_menu(input_array: list):
+    choice_array = []
     navigator_menu = menu('navigate', 'Please select a schema:\n')
-    choice_array = [ choice(name) for name in input_array ]
+    for name in input_array:
+        choice_array.append(name)
     navigator_menu.add_options(choice_array)
     return navigator_menu

@@ -154,10 +154,9 @@ class prompts():
                 'type': 'editor',
                 'name': 'bio',
                 'message': 'Edits:\n',
-                'default': 'Enter your text here...',
                 'eargs': {
                     'editor':'nano',
-                    'ext':'.yaml'
+                    'filename': './config/schemas_hierarchy.yaml'
                 }
             }
         ]

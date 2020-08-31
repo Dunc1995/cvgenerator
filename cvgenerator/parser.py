@@ -11,9 +11,7 @@ def get_pkg_file(file_name: str):
     return pkg_resources.read_text(templates, file_name)
 
 def get_local_file(file_name: str):
-    '''
-    Returns the local file in the cv_bin directory.
-    '''
+    '''Returns the local file in the cv_bin directory.'''
     with open(file_name, 'r') as file:
         contents = file.read()
     return contents
