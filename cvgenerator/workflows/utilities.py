@@ -44,10 +44,12 @@ def refresh_schema_hierarchy():
     should_continue = prompts.confirm('This will delete any default tags you have added to your data.\n Are you sure you want to continue?')
 
     if should_continue == True:
-        cv.SCHEMAS.clear()
         schemas_list = parser.get_schemas_from_yaml()
         cv.DB_CLIENT.drop_schemas_table()
         for schema in schemas_list:
             cv.DB_CLIENT.insert_schema_entry(schema)
     else:
         print('Action cancelled.')
+
+def test():
+    cv.DB_CLIENT.get_all_types()
