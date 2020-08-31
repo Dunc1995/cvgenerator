@@ -35,6 +35,10 @@ def edit_default_schema_names():
 
 def edit_schema_hierarchy():
     prompts.edit_existing_file(cv.SCHEMAS_PATH)
+    refresh_schema_hierarchy()
+
+def edit_tag_options():
+    prompts.edit_existing_file(cv.TAGS_PATH)
 
 def refresh_schema_hierarchy():
     should_continue = prompts.confirm('This will delete any default tags you have added to your data.\n Are you sure you want to continue?')

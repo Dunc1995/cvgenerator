@@ -67,10 +67,10 @@ def get_all_values(nested_dictionary, index=0, parent_key=None):
 
 def get_schemas_from_yaml():
     '''Parses the schemas_hierarchy.yaml contents and creates dicts for each data type.'''
-    contents_string = get_local_file('./config/schemas_hierarchy.yaml')
+    contents_string = get_local_file(cv.SCHEMAS_PATH)
     contents_dict = yaml.safe_load(contents_string)
     get_all_values(contents_dict)
-    return cv.SCHEMAS
+    return cv.SCHEMAS #TODO this is not necessary and confusing shiiiit. Need to make the array an input to the get_all_values method
 
 def get_default_schema():
     return { 
