@@ -29,12 +29,12 @@ def get_all_values(nested_dictionary, input_list, index=0, parent_key=None):
         append_keys.clear()
         
         if type(value) is dict:
-            append_keys = get_all_values(value, input_list, index=nested_index, parent_key=key)
+            append_keys = get_all_values(value, input_list, index=nested_index, parent_key=schema_index)
         elif type(value) is list:
             append_keys = []
             is_list = True
             for item in value:
-                __sub_group = get_all_values(item, input_list, index=nested_index, parent_key=key)
+                __sub_group = get_all_values(item, input_list, index=nested_index, parent_key=schema_index)
                 for i in __sub_group:
                     append_keys.append(i)
         else:
