@@ -25,7 +25,7 @@ def get_all_values(nested_dictionary, input_list, index=0, parent_key=None):
 
     for key, value in nested_dictionary.items():
         is_list = False
-        __child_keys.append(key)
+        __child_keys.append(schema_index)
         append_keys.clear()
         
         if type(value) is dict:
