@@ -35,21 +35,22 @@ def edit_default_schema_names():
 
 def edit_schema_hierarchy():
     prompts.edit_existing_file(cv.SCHEMAS_PATH)
-    refresh_schema_hierarchy()
+    refresh_schema_hierarchy(message='Do you want your changes to be reflected now?\n This will delete any default tags you have assigned to your data.')
 
 def edit_tag_options():
     prompts.edit_existing_file(cv.TAGS_PATH)
+    refresh_tag_options()
 
-def refresh_schema_hierarchy():
-    should_continue = prompts.confirm('This will delete any default tags you have added to your data.\n Are you sure you want to continue?')
+def refresh_schema_hierarchy(message='This will delete any default tags you have added to your data.\n Are you sure you want to continue?'):
+    should_continue = prompts.confirm(message)
 
     if should_continue == True:
         schemas_list = parser.get_schemas_from_yaml()
-        cv.DB_CLIENT.drop_schemas_table()
+        cv.DB_CLIENT.drop_table('schemas')
         for schema in schemas_list:
             cv.DB_CLIENT.insert_schema_entry(schema)
-    else:
-        print('Action cancelled.')
 
-def test():
-    cv.DB_CLIENT.get_all_types()
+def refresh_tag_options():
+    tags_dict = parser.get_tags_from_yaml()
+    cv.DB_CLIENT.drop_table('tags')
+    cv.DB_CLIENT.insert_tags(tags_dict)

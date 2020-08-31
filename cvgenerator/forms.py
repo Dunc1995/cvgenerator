@@ -26,7 +26,7 @@ UTILITIES_MENU.add_choices([
     choice('Edit schema hierarchy config', utilities.edit_schema_hierarchy),
     choice('Edit tag options config', utilities.edit_tag_options),
     choice('Refresh schema hierarchy', utilities.refresh_schema_hierarchy),
-    choice('Test', utilities.test),
+    choice('Refresh tag options', utilities.refresh_tag_options),
     choice('Help', utilities.show_help)
 ])
 

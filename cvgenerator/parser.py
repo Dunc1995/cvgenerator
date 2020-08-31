@@ -73,6 +73,13 @@ def get_schemas_from_yaml():
     get_all_values(contents_dict, schemas_list)
     return schemas_list
 
+def get_tags_from_yaml():
+    '''Parses the default_tags.yaml contents.'''
+    schemas_list = []
+    contents_string = get_local_file(cv.TAGS_PATH)
+    contents_dict = yaml.safe_load(contents_string)
+    return contents_dict
+
 def get_default_schema():
     return { 
         'type': None,

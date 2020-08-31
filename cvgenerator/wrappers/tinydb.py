@@ -37,6 +37,9 @@ class client():
     def insert_schema_entry(self, schema: dict):
         self.schemas.insert(schema)
 
+    def insert_tags(self, tags: dict):
+        self.tags.insert(tags)
+
     #! Refactor this rubbish
     def upsert_tag_entry(self, key: str, value: str, data: dict):
         self.tags.upsert(data, GENERIC_QUERY[key] == value)
@@ -47,5 +50,5 @@ class client():
     def upsert_data_entry(self, key: str, value: str, data: dict):
         self.data.upsert(data, GENERIC_QUERY[key] == value)
 
-    def drop_schemas_table(self):
-        self.db.drop_table('schemas')
+    def drop_table(self, table_name: str):
+        self.db.drop_table(table_name)
