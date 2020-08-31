@@ -8,7 +8,6 @@ TAGS_PATH = os.path.join('config', 'default_tags.yaml')
 #endregion
 
 #region #? Stateful
-SCHEMAS = []
 IS_EXITED = False
 DB_CLIENT = None
 #endregion

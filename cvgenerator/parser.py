@@ -16,7 +16,7 @@ def get_local_file(file_name: str):
         contents = file.read()
     return contents
 
-def get_all_values(nested_dictionary, index=0, parent_key=None):
+def get_all_values(nested_dictionary, input_list, index=0, parent_key=None):
     '''Propagates through every key value pair in an input dict, then appends each key and its properties to the SCHEMAS list in __init__.py.'''
     __child_keys = []
     append_keys = []
@@ -29,12 +29,12 @@ def get_all_values(nested_dictionary, index=0, parent_key=None):
         append_keys.clear()
         
         if type(value) is dict:
-            append_keys = get_all_values(value, index=nested_index, parent_key=key)
+            append_keys = get_all_values(value, input_list, index=nested_index, parent_key=key)
         elif type(value) is list:
             append_keys = []
             is_list = True
             for item in value:
-                __sub_group = get_all_values(item, index=nested_index, parent_key=key)
+                __sub_group = get_all_values(item, input_list, index=nested_index, parent_key=key)
                 for i in __sub_group:
                     append_keys.append(i)
         else:
@@ -60,17 +60,18 @@ def get_all_values(nested_dictionary, index=0, parent_key=None):
         elif append_keys == None or len(append_keys) == 0:
             schema['base_type'] = 'child'
         #TODO could with some validation before appending
-        cv.SCHEMAS.append(schema)
+        input_list.append(schema)
         print('name: {}, index: {}'.format(key, schema_index))
         schema_index += 1
     return __child_keys
 
 def get_schemas_from_yaml():
     '''Parses the schemas_hierarchy.yaml contents and creates dicts for each data type.'''
+    schemas_list = []
     contents_string = get_local_file(cv.SCHEMAS_PATH)
     contents_dict = yaml.safe_load(contents_string)
-    get_all_values(contents_dict)
-    return cv.SCHEMAS #TODO this is not necessary and confusing shiiiit. Need to make the array an input to the get_all_values method
+    get_all_values(contents_dict, schemas_list)
+    return schemas_list
 
 def get_default_schema():
     return { 
