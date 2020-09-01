@@ -162,23 +162,25 @@ class prompts():
         prompt(question, style=custom_style_2)
 
     @staticmethod
-    def checkbox():
-        questions = [
+    def checkbox(checkbox_list: list):
+        __list = []
+
+        for item in checkbox_list:
+            __list.append({
+                'name': item
+            })
+
+        question = [
             {
                 'type': 'checkbox',
                 'qmark': '😃',
-                'message': 'Select toppings',
-                'name': 'toppings',
-                'choices': [ 
-                    Separator('= The Meats ='),
-                    {
-                        'name': 'Ham'
-                    },
-                ]
+                'message': 'Select your tags',
+                'name': 'selection',
+                'choices': __list
             }
         ]
 
-        answers = prompt(questions, style=custom_style_2)
+        answers = prompt(question, style=custom_style_2)
         pprint(answers)
 
     @staticmethod

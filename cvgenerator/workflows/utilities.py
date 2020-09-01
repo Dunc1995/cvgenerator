@@ -31,7 +31,8 @@ def edit_default_schema_tags():
     navigator.start()
 
 def edit_default_schema_names():
-    print('Not implemented!')
+    tags_array = cv.DB_CLIENT.get_all_tags()
+    prompts.checkbox(tags_array)
 
 def edit_schema_hierarchy():
     prompts.edit_existing_file(cv.SCHEMAS_PATH)
