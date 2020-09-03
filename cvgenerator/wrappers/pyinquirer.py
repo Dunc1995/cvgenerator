@@ -46,7 +46,7 @@ class menu():
             self.has_been_shown = True
 
         while self.escaped == False and cv.IS_EXITED == False:
-            os.system('clear') #! This may cause issues!
+            # os.system('clear') #! This may cause issues!
             answer = prompt({
                 'type': self.type,
                 'name': self.name,
@@ -164,26 +164,20 @@ class prompts():
         prompt(question, style=custom_style_2)
 
     @staticmethod
-    def checkbox(checkbox_list: list):
-        __list = []
-
-        for item in checkbox_list:
-            __list.append({
-                'name': item
-            })
+    def checkbox(checkbox_list: list, message: str):
 
         question = [
             {
                 'type': 'checkbox',
                 'qmark': '😃',
-                'message': 'Select your tags',
+                'message': message,
                 'name': 'selection',
-                'choices': __list
+                'choices': checkbox_list
             }
         ]
 
         answers = prompt(question, style=custom_style_2)
-        pprint(answers)
+        return answers['selection']
 
     @staticmethod
     def confirm(message: str, default=False):
