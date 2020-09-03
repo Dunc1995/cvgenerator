@@ -63,6 +63,7 @@ def get_all_values(nested_dictionary, input_list, index=0, parent_key=None):
                 schema['children'].append(entry)
         elif append_keys == None or len(append_keys) == 0:
             schema['base_type'] = 'child'
+            schema['tags'].append('same_as_parent')
         #TODO could with some validation before appending
         input_list.append(schema)
         print('name: {}, index: {}'.format(key, schema_index))

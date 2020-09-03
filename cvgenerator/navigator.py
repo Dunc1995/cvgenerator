@@ -9,21 +9,22 @@ SCHEMA_CACHE = []
 def start():
     #? Every remaining schema should be a child to this schema.
     #TODO add checks to ensure this raises an exception when more than one entry schema is found (Refactor get_schema)
-    entry_schema = cv.DB_CLIENT.get_schema_by_uid('7ddda3ed-97c5-45a3-836c-003e8f71844b') #! DONT LEAVE THIS LIKE THIS
+    entry_schema = cv.DB_CLIENT.get_schema_by_uid('0398b1ae-833f-4082-8ec2-af9cb09d2eb7') #! DONT LEAVE THIS LIKE THIS
     cycle_through_schemas(entry_schema)
 
-def print_egg():
-    print('EGGY')
+CACHED_SCHEMA = None
 
 def cycle_through_schemas(input_schema):
     # SCHEMA_CACHE.append(input_schema)
     # print(SCHEMA_CACHE)
+    global CACHED_SCHEMA
+    CACHED_SCHEMA = input_schema
 
     result = None
     schema_objects = []
     choice_array = []
     choice_array.append(prompts.get_separator('=====Parent====='))
-    choice_array.append(choice(input_schema['name'], print_egg))
+    choice_array.append(choice(input_schema['name'], __tag_selection_prompt))
 
     if input_schema['base_type'] == 'parent':
         choice_array.append(prompts.get_separator('====Children===='))
@@ -49,26 +50,33 @@ def cycle_through_schemas(input_schema):
                 previous_schema = cv.DB_CLIENT.get_schema_by_uid(input_schema['parent'])
                 cycle_through_schemas(previous_schema)
     else:
-        tags_array = cv.DB_CLIENT.get_all_tags()
-        tags_menu = []
+        __tag_selection_prompt()
 
-        for tag in tags_array:
-            if tag in input_schema['tags']:
-                tags_menu.append({
-                    'name': tag,
-                    'checked': True 
-                })
-            else:
-                tags_menu.append({
-                    'name': tag
-                })
 
-        tag_selection = prompts.checkbox(tags_menu, 'Select your tags for {}'.format(input_schema['type']))
+def __tag_selection_prompt():
+    global CACHED_SCHEMA
+    input_schema = CACHED_SCHEMA
 
-        input_schema['tags'] = tag_selection
-        cv.DB_CLIENT.upsert_schema_entry('unique_id', input_schema['unique_id'], input_schema)
-        previous_schema = cv.DB_CLIENT.get_schema_by_uid(input_schema['parent'])
-        cycle_through_schemas(previous_schema)
+    tags_array = cv.DB_CLIENT.get_all_tags()
+    tags_menu = []
+
+    for tag in tags_array:
+        if tag in input_schema['tags']:
+            tags_menu.append({
+                'name': tag,
+                'checked': True 
+            })
+        else:
+            tags_menu.append({
+                'name': tag
+            })
+
+    tag_selection = prompts.checkbox(tags_menu, 'Select your tags for {}'.format(input_schema['type']))
+
+    input_schema['tags'] = tag_selection
+    cv.DB_CLIENT.upsert_schema_entry('unique_id', input_schema['unique_id'], input_schema)
+    previous_schema = cv.DB_CLIENT.get_schema_by_uid(input_schema['parent'])
+    cycle_through_schemas(previous_schema)
 
 #? For testing purposes:
 if __name__ == "__main__":
