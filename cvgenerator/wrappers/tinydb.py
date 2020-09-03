@@ -1,13 +1,12 @@
 from tinydb import TinyDB, Query
 
-GENERIC_QUERY = Query()
-
 class client():
     def __init__(self, file_path='./data/db.json'):
         self.db = TinyDB(file_path, sort_keys=True, indent=4, separators=(',', ': '))
         self.tags = self.db.table('tags')
         self.schemas = self.db.table('schemas')
         self.data = self.db.table('data')
+        self.query = Query()
 
     def get_all_types(self):
         '''
@@ -23,16 +22,16 @@ class client():
             list_obj = []
         return list_obj
 
-    def get_schema(self, value: str, key='type'):
+    def get_schema(self, value: str, key='unique_id'):
         schema = None
         try:
-            schema = self.schemas.search(GENERIC_QUERY[key] == value)[0] #! DONT LEAVE THIS HERE!
+            schema = self.schemas.search(self.query[key] == value)[0] #! DONT LEAVE THIS HERE!
         except IndexError as e:
             schema = None
         return schema
 
     def search(self, table, key: str, value: str):
-        return table.search(GENERIC_QUERY[key] == value)
+        return table.search(self.query[key] == value)
 
     def insert_schema_entry(self, schema: dict):
         self.schemas.insert(schema)
@@ -42,13 +41,13 @@ class client():
 
     #! Refactor this rubbish
     def upsert_tag_entry(self, key: str, value: str, data: dict):
-        self.tags.upsert(data, GENERIC_QUERY[key] == value)
+        self.tags.upsert(data, self.query[key] == value)
 
     def upsert_schema_entry(self, key: str, value: str, data: dict):
-        self.schemas.upsert(data, GENERIC_QUERY[key] == value)
+        self.schemas.upsert(data, self.query[key] == value)
 
     def upsert_data_entry(self, key: str, value: str, data: dict):
-        self.data.upsert(data, GENERIC_QUERY[key] == value)
+        self.data.upsert(data, self.query[key] == value)
 
     def drop_table(self, table_name: str):
         self.db.drop_table(table_name)
