@@ -3,6 +3,7 @@ from pprint import pprint
 from PyInquirer import prompt, Separator
 from examples import custom_style_2
 import cvgenerator as cv
+import os
 
 # from PyInquirer import style_from_dict, Token, prompt, print_json
 # from PyInquirer import Validator, ValidationError
@@ -45,6 +46,7 @@ class menu():
             self.has_been_shown = True
 
         while self.escaped == False and cv.IS_EXITED == False:
+            os.system('clear') #! This may cause issues!
             answer = prompt({
                 'type': self.type,
                 'name': self.name,
