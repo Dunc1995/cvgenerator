@@ -3,6 +3,7 @@ import json
 import importlib.resources as pkg_resources
 from . import templates  # relative-import the *package* containing the templates
 import cvgenerator as cv
+import uuid
 
 schema_index = 1
 
@@ -21,20 +22,22 @@ def get_all_values(nested_dictionary, input_list, index=0, parent_key=None):
     __child_keys = []
     append_keys = []
     nested_index = index+1
-    global schema_index
 
     for key, value in nested_dictionary.items():
+        global schema_index
+        uid = str(uuid.uuid4())
+        
         is_list = False
-        __child_keys.append(key)
+        __child_keys.append(uid)
         append_keys.clear()
         
         if type(value) is dict:
-            append_keys = get_all_values(value, input_list, index=nested_index, parent_key=key)
+            append_keys = get_all_values(value, input_list, index=nested_index, parent_key=uid)
         elif type(value) is list:
             append_keys = []
             is_list = True
             for item in value:
-                __sub_group = get_all_values(item, input_list, index=nested_index, parent_key=key)
+                __sub_group = get_all_values(item, input_list, index=nested_index, parent_key=uid)
                 for i in __sub_group:
                     append_keys.append(i)
         else:
@@ -47,6 +50,7 @@ def get_all_values(nested_dictionary, input_list, index=0, parent_key=None):
         schema['listable_children'] = is_list
         schema['nested_level'] = nested_index
         schema['parent'] = parent_key
+        schema['unique_id'] = uid
 
         if not append_keys == None and len(append_keys) > 0:
             #TODO add this print method to a logger
@@ -89,5 +93,6 @@ def get_default_schema():
         'children': [],
         'tags': [],
         'listable_children': False,
-        'nested_level': None
+        'nested_level': None,
+        'unique_id': None
         }
