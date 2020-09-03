@@ -22,13 +22,22 @@ class client():
             list_obj = []
         return list_obj
 
-    def get_schema(self, value: str, key='unique_id'):
-        schema = None
-        try:
-            schema = self.schemas.search(self.query[key] == value)[0] #! DONT LEAVE THIS HERE!
-        except IndexError as e:
-            schema = None
-        return schema
+    def get_schema_by_uid(self, uid: str):
+        result = self.get_object_by_uid('schemas', uid)
+        return result
+
+    def get_object_by_uid(self, table: str, uid: str):
+        '''Gets a db object by its unique identifier. Raises an exception if it finds more than one object with the same id.'''
+        output = None
+        object_array = self.db.table[table].search(self.query['unique_id'] == uid)
+        if len(object_array) == 1:
+            output = object_array[0]
+        elif len(object_array) > 1:
+            raise Exception('Found objects with duplicate id\'s!')
+        else:
+            raise Exception('Object with unique_id \"{}\" not found.'.format(uid))
+
+        return output
 
     def search(self, table, key: str, value: str):
         return table.search(self.query[key] == value)
