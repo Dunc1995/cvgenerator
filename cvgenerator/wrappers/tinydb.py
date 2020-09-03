@@ -29,7 +29,7 @@ class client():
     def get_object_by_uid(self, table: str, uid: str):
         '''Gets a db object by its unique identifier. Raises an exception if it finds more than one object with the same id.'''
         output = None
-        object_array = self.db.table[table].search(self.query['unique_id'] == uid)
+        object_array = self.db.table(table).search(self.query['unique_id'] == uid)
         if len(object_array) == 1:
             output = object_array[0]
         elif len(object_array) > 1:

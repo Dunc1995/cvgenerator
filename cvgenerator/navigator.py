@@ -8,6 +8,7 @@ SCHEMA_CACHE = []
 def start():
     #? Every remaining schema should be a child to this schema.
     #TODO add checks to ensure this raises an exception when more than one entry schema is found (Refactor get_schema)
+    print('EGG')
     entry_schema = cv.DB_CLIENT.get_schema_by_uid('7ddda3ed-97c5-45a3-836c-003e8f71844b') #! DONT LEAVE THIS LIKE THIS
     cycle_through_schemas(entry_schema)
 
