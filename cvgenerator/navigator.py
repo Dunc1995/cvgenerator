@@ -17,6 +17,7 @@ CACHED_SCHEMA = None
 def cycle_through_schemas(input_schema):
     # SCHEMA_CACHE.append(input_schema)
     # print(SCHEMA_CACHE)
+    os.system('clear')
     global CACHED_SCHEMA
     CACHED_SCHEMA = input_schema
 

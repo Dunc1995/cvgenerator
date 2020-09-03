@@ -5,6 +5,7 @@ import json
 import cvgenerator.parser as parser
 import cvgenerator.navigator as navigator
 import textwrap
+import os
 
 def show_help():
     text = '''
@@ -38,10 +39,12 @@ def edit_default_schema_names():
 def edit_schema_hierarchy():
     prompts.edit_existing_file(cv.SCHEMAS_PATH)
     refresh_schema_hierarchy(message='Do you want your changes to be reflected now?\n This will delete any default tags you have assigned to your data.')
+    os.system('clear')
 
 def edit_tag_options():
     prompts.edit_existing_file(cv.TAGS_PATH)
     refresh_tag_options()
+    os.system('clear')
 
 def refresh_schema_hierarchy(message='This will delete any default tags you have added to your data.\n Are you sure you want to continue?'):
     should_continue = prompts.confirm(message)
