@@ -1,4 +1,4 @@
-from cvgenerator.workflows import utilities
+from cvgenerator.workflows import utilities, editor
 from cvgenerator.wrappers.pyinquirer import menu, choice
 
 def placeholder():
@@ -16,7 +16,7 @@ EDITOR_MENU.add_choices([
     choice('Insert data', placeholder),
     choice('Update existing data', placeholder),
     choice('Remove existing data', placeholder),
-    choice('Help', placeholder)
+    choice('Help', editor.show_help)
 ])
 
 UTILITIES_MENU = menu('utilities', 'Options')

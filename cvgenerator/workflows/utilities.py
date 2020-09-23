@@ -20,10 +20,10 @@ def show_help():
     2. \"Edit default schema tags\"  allows you to assign default tags to all of your document's
     schemas. For example a Summary section may be optional whereas a Work Experience section is
     mandatory.
-    3. \"Refresh schema hierarchy\" will reload the schema_hierarchy.yaml config file and
-    repopulate the schemas table in db.json. IT IS WORTH NOTING that this may remove any
-    tags that have been previously added to your data schemas; this should only be used if
-    you're planning on defining a new document structure.
+    3. \"Edit schema hierarchy config\" opens the schema hierarchy config file allowing you to
+    specify all your document's data types and their interrelationships.
+    4. \"Edit tag options config\" opens the tags config file allowing you to specify any tags
+    you wish to use on your document.
     '''
     #TODO find a better way to print
     print(text)
