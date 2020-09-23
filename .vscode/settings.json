@@ -3,5 +3,6 @@
     "cSpell.words": [
         "cvgenerator",
         "tinydb"
-    ]
+    ],
+    "python.formatting.provider": "yapf"
 }
