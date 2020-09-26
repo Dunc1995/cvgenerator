@@ -26,6 +26,10 @@ class client():
         result = self.get_object_by_uid('schemas', uid)
         return result
 
+    def get_parent_schema(self):
+        result = self.get_parent_object('schemas')
+        return result
+
     def get_object_by_uid(self, table: str, uid: str):
         '''Gets a db object by its unique identifier. Raises an exception if it finds more than one object with the same id.'''
         output = None
@@ -36,6 +40,19 @@ class client():
             raise Exception('Found objects with duplicate id\'s!')
         else:
             raise Exception('Object with unique_id \"{}\" not found.'.format(uid))
+
+        return output
+
+    def get_parent_object(self, table: str):
+        '''Gets a db object by its unique identifier. Raises an exception if it finds more than one object with the same id.'''
+        output = None
+        object_array = self.db.table(table).search(self.query['parent'] == None)
+        if len(object_array) == 1:
+            output = object_array[0]
+        elif len(object_array) > 1:
+            raise Exception('Found too many parent objects!')
+        else:
+            raise Exception('Found no entry point for the document.')
 
         return output
 

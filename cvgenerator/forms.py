@@ -12,10 +12,7 @@ COMPILER_MENU.add_choices([
 
 EDITOR_MENU = menu('edit', 'What would you like to edit?')
 EDITOR_MENU.add_choices([
-    choice('Browse data', placeholder),
-    choice('Insert data', placeholder),
-    choice('Update existing data', placeholder),
-    choice('Remove existing data', placeholder),
+    choice('Show Document Blueprint', editor.show_document_blueprint),
     choice('Help', editor.show_help)
 ])
 

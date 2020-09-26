@@ -1,6 +1,8 @@
 tags:
     - mandatory
     - academic
+    - hide_name
+    - same_as_parent
     - verbose
     - short
     - footnote
@@ -9,4 +11,3 @@ tags:
     - leadership
     - vision
     - informational
-    - same_as_parent

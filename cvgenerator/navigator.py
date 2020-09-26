@@ -5,14 +5,32 @@ from cvgenerator.wrappers.pyinquirer import prompts, choice
 import os
 
 SCHEMA_CACHE = []
+CACHED_SCHEMA = None
+CACHED_DOC = None
 
 def start():
     #? Every remaining schema should be a child to this schema.
-    #TODO add checks to ensure this raises an exception when more than one entry schema is found (Refactor get_schema)
-    entry_schema = cv.DB_CLIENT.get_schema_by_uid('0398b1ae-833f-4082-8ec2-af9cb09d2eb7') #! DONT LEAVE THIS LIKE THIS
+    entry_schema = cv.DB_CLIENT.get_parent_schema()
     cycle_through_schemas(entry_schema)
 
-CACHED_SCHEMA = None
+def walk_through_data():
+    global CACHED_DOC
+    CACHED_DOC = ''
+    entry_schema = cv.DB_CLIENT.get_parent_schema()
+    __walk_through_data(entry_schema)
+    print(CACHED_DOC)
+
+def __walk_through_data(input_schema):
+    global CACHED_DOC
+
+    if input_schema['base_type'] == 'parent':
+        CACHED_DOC += '{} {}\n\n'.format(input_schema['nested_level']*'#', input_schema['name'])
+        for item in input_schema['children']:
+            schema_object = cv.DB_CLIENT.get_schema_by_uid(item)
+            __walk_through_data(schema_object)
+        CACHED_DOC += '\n'
+    elif input_schema['base_type'] == 'child':
+        CACHED_DOC += '- {}\n'.format(input_schema['name'])
 
 def cycle_through_schemas(input_schema):
     # SCHEMA_CACHE.append(input_schema)
